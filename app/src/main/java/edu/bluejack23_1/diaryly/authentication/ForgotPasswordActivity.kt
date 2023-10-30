@@ -1,9 +1,11 @@
 package edu.bluejack23_1.diaryly.authentication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +16,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var etEmail: EditText
     private lateinit var btnSendLink: Button
+    private lateinit var btnBack :ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +25,13 @@ class ForgotPasswordActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         etEmail = findViewById(R.id.etEmail)
         btnSendLink = findViewById(R.id.sendLinkButton)
+        btnBack = findViewById(R.id.btnBack)
+
+        btnBack.setOnClickListener {
+            // Create an intent to start the login activity
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         btnSendLink.setOnClickListener {
             val email = etEmail.text.toString()

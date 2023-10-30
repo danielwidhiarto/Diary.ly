@@ -124,6 +124,10 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
+        backButton.setOnClickListener {
+            finish()
+        }
+
         updateButton.setOnClickListener {
             val username = etUsername.text.toString()
             val email = etEmail.text.toString()
