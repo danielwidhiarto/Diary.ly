@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Diary.ly</string>
+    <string name="Login">Login</string>
+    <string name="Register">Register</string>
+
+    <string name="Email">Email</string>
+    <string name="enterEmail">Enter your Email</string>
+    <string name="Password">Password</string>
+    <string name="enterPassword">Enter your Password</string>
+
+    <string name="username">Username</string>
+    <string name="enterUsername">Enter your Username</string>
+    <string name="confirmPassword">ConfirmPassword</string>
+    <string name="enterConfirmPassword">Enter your Confirm Password</string>
+
+    <string name="forgotPassword">Forgot Password ?</string>
+    <string name="redirectRegister">Don\'t have an account?</string>
+    <string name="registerHere">Register Here</string>
+
+    <string name="redirectLogin">Already have an account?</string>
+    <string name="loginHere">Login Here</string>
+
+    <string name="forgotPasswordTitle">Forgot Password</string>
+    <string name="forgotPasswordContent">Enter an email registered before, to reset your password</string>
+
+    <string name="sendLink">Send Link</string>
+    <string name="myJournal">My Journal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="profilePicture">Profile Picture</string>
+    <string name="Update">Update</string>
+    <string name="EditProfileTitle">Edit Profile</string>
+
+    <string name="JournalTitle">Journal Title</string>
+    <string name="JournalContent">Content</string>
+    <string name="JournalDate">31 October 2023</string>
+</resources>

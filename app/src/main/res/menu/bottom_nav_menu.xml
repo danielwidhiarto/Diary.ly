@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_moods"
+        android:icon="@drawable/navbar_moods"
+        android:title="Moods" />
+    <item
+        android:id="@+id/menu_journal"
+        android:icon="@drawable/navbar_journal"
+        android:title="Journal" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/navbar_search"
+        android:title="Search" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/navbar_profile"
+        android:title="Profile" />
+
+</menu>

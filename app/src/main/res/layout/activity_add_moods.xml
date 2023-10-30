@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF2D8"
+    tools:context=".moods.AddMoodsActivity">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        android:layout_gravity="center"
+        android:text="What's up today ?"
+        android:textAlignment="center"
+        android:textSize="32sp" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Date"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Time"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvChooseMood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"
+        android:text="Choose Moods"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/moods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:text="Chosen Mood"
+        android:layout_marginBottom="25dp"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/moods_level_1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/emoji_verysad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/moods_level_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onMoodLevelSelected"/>
+
+        <ImageButton
+            android:id="@+id/moods_level_2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/emoji_sad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/moods_level_3"
+            app:layout_constraintStart_toEndOf="@+id/moods_level_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:onClick="onMoodLevelSelected"/>
+
+        <ImageButton
+            android:id="@+id/moods_level_3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/emoji_neutral"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/moods_level_4"
+            app:layout_constraintStart_toEndOf="@+id/moods_level_2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onMoodLevelSelected"/>
+
+        <ImageButton
+            android:id="@+id/moods_level_4"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/emoji_happy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/moods_level_5"
+            app:layout_constraintStart_toEndOf="@+id/moods_level_3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:onClick="onMoodLevelSelected"/>
+
+        <ImageButton
+            android:id="@+id/moods_level_5"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/emoji_veryhappy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moods_level_4"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onMoodLevelSelected"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"
+        android:text="Notes"
+        android:layout_marginBottom="25dp"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+    
+    <EditText
+        android:id="@+id/etNotes"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:hint="Enter Notes"
+        android:layout_marginBottom="25dp"/>
+    
+    <ImageButton
+        android:id="@+id/saveButton"
+        android:contentDescription="Check Confirm Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/plus_icon"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
