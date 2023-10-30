@@ -1,5 +1,6 @@
 package edu.bluejack23_1.diaryly.search
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import edu.bluejack23_1.diaryly.R
@@ -19,9 +22,11 @@ class SearchFragment : Fragment() {
     private lateinit var dataList: ArrayList<User>
     private lateinit var imagelist: Array<Int>
     private lateinit var userList: Array<String>
-    private lateinit var searchView: SearchView
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
 
-    private val db = FirebaseFirestore.getInstance()
+    val firestore = FirebaseFirestore.getInstance()
+    val userCollection = firestore.collection("users")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,49 +39,41 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.setHasFixedSize(true)
-        searchView = view.findViewById(R.id.searchBar)
+        val searchBar: SearchView = view.findViewById(R.id.searchBar)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        val userCollection = FirebaseFirestore.getInstance().collection("users")
+        val userAdapter = UserAdapter(ArrayList())
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = userAdapter
+
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle search when the user submits a query
-                if (!query.isNullOrEmpty()) {
-                    getData(query)
-                }
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Handle search as the user types (optional)
+                if (newText != null) {
+                    searchUsers(newText, userAdapter, userCollection)
+                }
                 return true
             }
         })
     }
 
-    private fun getData(username: String) {
-        // Clear the existing data list
-        dataList.clear()
-
-        db.collection("users")
-            .whereEqualTo("username", username)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot) {
-                    val username = document.getString("username") ?: ""
-                    val userProfileImagePath = document.getString("userProfileImagePath") ?: ""
-
-//                    // Create a UserModel object and add it to the list
-//                    val userModel = UserModel(username, userProfileImagePath)
-//                    dataList.add(userModel)
+    private fun searchUsers(query: String, adapter: UserAdapter, userCollection: CollectionReference) {
+        userCollection.whereEqualTo("username", query).get()
+            .addOnSuccessListener { documents ->
+                val users = ArrayList<UserModel>()
+                for (document in documents) {
+                    val user = document.toObject(UserModel::class.java)
+                    users.add(user)
                 }
-
-                // Update the RecyclerView
-                recyclerView.adapter?.notifyDataSetChanged()
+                adapter.updateUsers(users)
             }
             .addOnFailureListener { exception ->
-                // Handle errors
-                Log.e("SearchFragment", "Error getting user data: $exception")
+                Log.w(TAG, "Error getting documents: ", exception)
             }
     }
 }

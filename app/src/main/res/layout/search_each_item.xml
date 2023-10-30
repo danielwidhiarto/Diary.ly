@@ -8,38 +8,22 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/profile_image"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginStart="20dp"
-            android:paddingBottom="8dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-        </ImageView>
+        android:layout_height="50dp" >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="Username"
             android:id="@+id/tvUsername"
             android:textSize="16sp"
             android:layout_marginStart="20dp"
-            app:layout_constraintStart_toEndOf="@id/profile_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_gravity="center"
+            android:gravity="center"/>
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

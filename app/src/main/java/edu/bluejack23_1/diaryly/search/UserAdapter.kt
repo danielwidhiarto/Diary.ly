@@ -3,38 +3,34 @@ package edu.bluejack23_1.diaryly.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.auth.User
 import edu.bluejack23_1.diaryly.R
+class UserAdapter(private val userList: ArrayList<UserModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-class UserAdapter(private val userList: ArrayList<User>)
-    : RecyclerView.Adapter<UserAdapter.userViewHolder>(){
+    // Add a public method to update the user list
+    fun updateUsers(users: List<UserModel>) {
+        userList.clear()
+        userList.addAll(users)
+        notifyDataSetChanged()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): userViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.search_each_item, parent, false)
-        return userViewHolder(itemView)
+        return UserViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
         return userList.size
     }
 
-    override fun onBindViewHolder(holder: userViewHolder, position: Int) {
-        TODO("Not yet implemented")
-//        val currentItem = userList[position]
-//        holder.userprofile.setImageResource(currentItem.image)
-//        holder.username.text = currentItem.title
-
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        val user = userList[position]
+        holder.username.text = user.username
     }
 
-
-    class userViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val userprofile:ImageView = itemView.findViewById(R.id.profile_image)
-        val username : TextView = itemView.findViewById(R.id.etUsername)
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val username: TextView = itemView.findViewById(R.id.tvUsername)
     }
-
 }
 
