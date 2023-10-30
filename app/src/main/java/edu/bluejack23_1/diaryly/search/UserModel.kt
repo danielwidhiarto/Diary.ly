@@ -1,9 +1,11 @@
 package edu.bluejack23_1.diaryly.search
 
+import java.io.Serializable
+
 data class UserModel(
     val username: String,
-    val userId: String,  // Add this property if it exists in your Firestore document
-    val email: String    // Add this property if it exists in your Firestore document
-) {
+    val userId: String,
+    val email: String
+) : Serializable {
     constructor() : this("", "", "")
 }
