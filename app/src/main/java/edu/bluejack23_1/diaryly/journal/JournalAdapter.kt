@@ -1,5 +1,6 @@
 package edu.bluejack23_1.diaryly.journal
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,5 +34,12 @@ class JournalAdapter (private val journalList:ArrayList<Journal>)
         holder.journalTitle.text = journal.title
         holder.journalContent.text = journal.content
         holder.journaldate.text = journal.date
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, JournalDetailActivity::class.java)
+            intent.putExtra("journalsId", journal) // Assuming journal.id is a String or an identifier
+            context.startActivity(intent)
+        }
     }
 }

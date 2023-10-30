@@ -89,11 +89,13 @@ class AddJournalActivity : AppCompatActivity() {
             val date = btnDateJournal.text.toString()
             val visibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
             // Create a Journal object or a data class based on your requirements
-            val journal =
-                Journal(title, date, content, R.drawable.ic_launcher_background, visibility)
-
-            // Save the journal data to Firestore
-            saveJournalToFirestore(journal)
+            if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
+                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+            } else {
+                // All required fields are filled; proceed to create and save the journal
+                val journal = Journal(title, date, content, R.drawable.ic_launcher_background, visibility)
+                saveJournalToFirestore(journal)
+            }
         }
 
         btnDateJournal.setOnClickListener {
