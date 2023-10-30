@@ -12,13 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" >
 
+        <ImageView
+            android:id="@+id/img_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/navbar_profile"
+            android:layout_marginLeft="10dp"
+            />
+
         <TextView
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="Username"
             android:id="@+id/tvUsername"
             android:textSize="16sp"
-            android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:gravity="center"/>
 

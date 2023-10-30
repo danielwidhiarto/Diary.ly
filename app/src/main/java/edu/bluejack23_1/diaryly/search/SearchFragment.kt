@@ -63,7 +63,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchUsers(query: String, adapter: UserAdapter, userCollection: CollectionReference) {
-        userCollection.whereEqualTo("username", query).get()
+        userCollection
+            .whereGreaterThanOrEqualTo("username", query)
+            .whereLessThanOrEqualTo("username", query + "\uF7FF") // \uF7FF is a Unicode character that is higher than any regular character
+            .get()
             .addOnSuccessListener { documents ->
                 val users = ArrayList<UserModel>()
                 for (document in documents) {

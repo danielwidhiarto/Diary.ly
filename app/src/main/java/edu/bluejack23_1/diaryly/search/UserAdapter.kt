@@ -4,8 +4,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import edu.bluejack23_1.diaryly.R
 
 class UserAdapter(private val userList: ArrayList<UserModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -20,6 +22,7 @@ class UserAdapter(private val userList: ArrayList<UserModel>) : RecyclerView.Ada
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val username: TextView = itemView.findViewById(R.id.tvUsername)
+        val profileImage : ImageView = itemView.findViewById(R.id.img_profile)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -35,6 +38,13 @@ class UserAdapter(private val userList: ArrayList<UserModel>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = userList[position]
         holder.username.text = user.username
+
+        // Load and display the user's profile image using Picasso
+        if (!user.image_url.isNullOrEmpty()) {
+            Picasso.get().load(user.image_url).into(holder.profileImage)
+        } else {
+            // Handle the case where the profile image URL is not available or empty
+        }
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
