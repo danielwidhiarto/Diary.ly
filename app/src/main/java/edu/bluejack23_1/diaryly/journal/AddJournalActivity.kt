@@ -11,6 +11,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -34,6 +35,7 @@ class AddJournalActivity : AppCompatActivity() {
     private lateinit var rdbtnPublic: RadioButton
     private lateinit var btnAddJournal: Button
     private lateinit var btnImageView: ImageButton
+    private lateinit var btnBackButton : ImageView
     private lateinit var firestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
@@ -73,6 +75,7 @@ class AddJournalActivity : AppCompatActivity() {
         rdbtnPrivate = findViewById(R.id.rdbtnPrivate)
         rdbtnPublic = findViewById(R.id.rdbtnPublic)
         btnAddJournal = findViewById(R.id.btnAddJournal)
+        btnBackButton = findViewById(R.id.backButton)
 
         firestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
@@ -100,6 +103,10 @@ class AddJournalActivity : AppCompatActivity() {
 
         btnDateJournal.setOnClickListener {
             showDatePickerDialog()
+        }
+
+        btnBackButton.setOnClickListener {
+            finish()
         }
 
         btnImageView.setOnClickListener {

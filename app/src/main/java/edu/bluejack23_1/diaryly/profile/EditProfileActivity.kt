@@ -168,29 +168,27 @@ class EditProfileActivity : AppCompatActivity() {
             userDocument.update(userData as Map<String, Any>).addOnSuccessListener {
                 // Update successful
 
-                // Update the user's email address in Firebase Auth
+// Update the user's email address in Firebase Auth
                 firebaseAuth.currentUser!!.updateEmail(email).addOnCompleteListener { emailTask ->
                     if (emailTask.isSuccessful) {
                         // Update the user's password in Firebase Auth
                         firebaseAuth.currentUser!!.updatePassword(password).addOnCompleteListener { passwordTask ->
                             if (passwordTask.isSuccessful) {
                                 Log.d("EditProfileActivity", "User email and password updated successfully.")
+                                // Show the toast here
                                 Toast.makeText(this, "Profile updated successfully.", Toast.LENGTH_SHORT).show()
                                 finish()
                             } else {
                                 Log.d("EditProfileActivity", "User password update failed.", passwordTask.exception)
-                                Toast.makeText(this, "Profile update failed.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } else {
                         Log.d("EditProfileActivity", "User email update failed.", emailTask.exception)
-                        Toast.makeText(this, "Profile update failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
+
             }.addOnFailureListener { e ->
-                // Update in Firestore failed
                 Log.d("EditProfileActivity", "User data update failed.", e)
-                Toast.makeText(this, "Profile update failed.", Toast.LENGTH_SHORT).show()
             }
         }
 
