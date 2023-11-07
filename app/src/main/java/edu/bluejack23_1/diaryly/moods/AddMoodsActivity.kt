@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.bluejack23_1.diaryly.R
@@ -18,6 +19,7 @@ class AddMoodsActivity : AppCompatActivity() {
     private lateinit var chosenMoods: TextView
     private lateinit var etNotes: EditText
     private lateinit var saveButton: ImageButton
+    private lateinit var backButton: AppCompatImageView
 
     private var chosenMoodLevel: String = "Chosen Mood"
 
@@ -34,6 +36,7 @@ class AddMoodsActivity : AppCompatActivity() {
         chosenMoods = findViewById(R.id.moods)
         etNotes = findViewById(R.id.etNotes)
         saveButton = findViewById(R.id.saveButton)
+        backButton = findViewById(R.id.backButton)
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -51,7 +54,16 @@ class AddMoodsActivity : AppCompatActivity() {
         tvDate.text = "$date"
         tvTime.text = "$time"
 
+        (backButton as AppCompatImageView).setOnClickListener {
+            finish()
+        }
+
         saveButton.setOnClickListener {
+            if (chosenMoodLevel == "Chosen Mood") {
+                Toast.makeText(this, "Please choose a mood before saving", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val user = auth.currentUser
             if (user != null) {
                 // Get the user's ID
