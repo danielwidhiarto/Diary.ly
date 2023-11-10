@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -53,49 +54,39 @@ class ProfileFragment : Fragment() {
         }
 
         btnDeleteAccount.setOnClickListener {
-            // Show a confirmation dialog before deleting the account.
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Delete Account")
             builder.setMessage("Are you sure you want to delete your account? This action is irreversible.")
             builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
-                // Delete the user's account.
-                val user = firebaseAuth.currentUser
-                user?.delete()!!.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // User account has been deleted.
-                        Log.d("ProfileFragment", "User account has been deleted.")
+                val user = firebaseAuth.currentUser // Get the current user
 
-                        // Delete the user's data from Firestore.
-                        firestore.collection("users").document(user.uid).delete()
-                            .addOnSuccessListener {
-                                Log.d(
-                                    "ProfileFragment",
-                                    "User data has been deleted from Firestore."
-                                )
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w(
-                                    "ProfileFragment",
-                                    "Error deleting user data from Firestore.",
-                                    e
-                                )
-                            }
+                // Delete user data from Firestore
+                firestore.collection("users").document(user!!.uid).delete()
+                    .addOnSuccessListener {
+                        Log.d("ProfileFragment", "User data has been deleted from Firestore.")
 
-                        // Navigate to the login activity.
-                        val intent = Intent(context, LoginActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        // User account could not be deleted.
-                        Log.w(
-                            "ProfileFragment",
-                            "User account could not be deleted.",
-                            task.exception
-                        )
+                        // After successfully deleting from Firestore, proceed to delete the authentication
+                        user.delete().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                // User account has been deleted from authentication
+                                Log.d("ProfileFragment", "User account has been deleted.")
+                                Toast.makeText(this.context, "Account Successfully Deleted!", Toast.LENGTH_SHORT).show()
+
+                                // Navigate to the login activity.
+                                val intent = Intent(context, LoginActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                // User account could not be deleted from authentication
+                                Log.w("ProfileFragment", "User account could not be deleted from authentication.", task.exception)
+                            }
+                        }
                     }
-                }
+                    .addOnFailureListener { e ->
+                        Log.w("ProfileFragment", "Error deleting user data from Firestore.", e)
+                    }
             })
             builder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
-                // Do nothing.
+                // Do nothing
             })
             builder.show()
         }
