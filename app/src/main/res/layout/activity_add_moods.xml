@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Date"
+        android:text=""
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Time"
+        android:text=""
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="25dp"
-        android:text="Chosen Mood"
+        android:text=""
         android:layout_marginBottom="25dp"
         android:textAlignment="center"
         android:textSize="24sp" />

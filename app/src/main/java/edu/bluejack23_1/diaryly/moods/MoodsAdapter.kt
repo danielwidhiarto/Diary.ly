@@ -43,6 +43,10 @@ class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsA
             val context = holder.itemView.context
             val intent = Intent(context, EditMoodsActivity::class.java)
             intent.putExtra("MOOD_ID", mood.id) // Pass the mood ID to EditActivity
+            intent.putExtra("time", mood.time)
+            intent.putExtra("date", mood.date)
+            intent.putExtra("chosenMood", mood.chosenMood.toString())
+            intent.putExtra("notes", mood.notes)
             context.startActivity(intent)
         }
 
