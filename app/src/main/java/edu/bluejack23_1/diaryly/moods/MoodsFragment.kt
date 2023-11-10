@@ -33,6 +33,9 @@ class MoodsFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        moodsAdapter = MoodsAdapter(ArrayList()) // Initialize adapter with an empty list
+        recyclerView.adapter = moodsAdapter
+
         val db = FirebaseFirestore.getInstance()
         val moodList = ArrayList<Moods>()
 
@@ -54,8 +57,8 @@ class MoodsFragment : Fragment() {
                         moodList.add(moodEntry)
                     }
 
-                    moodsAdapter = MoodsAdapter(moodList)
-                    recyclerView.adapter = moodsAdapter
+                    moodsAdapter.updateData(moodList) // Update adapter data
+
                 }
                 .addOnFailureListener { exception ->
                     // Handle errors here
@@ -68,5 +71,14 @@ class MoodsFragment : Fragment() {
             val intent = Intent(requireContext(), AddMoodsActivity::class.java)
             startActivity(intent)
         }
+
+//        // Find the "Edit" TextView
+//        val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
+//        tvEdit.setOnClickListener {
+//            // Handle the click event
+//            val intent = Intent(requireContext(), EditMoodsActivity::class.java)
+//            startActivity(intent)
+//        }
     }
+
 }

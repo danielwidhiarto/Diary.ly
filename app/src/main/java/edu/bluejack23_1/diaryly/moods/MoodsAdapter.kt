@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.bluejack23_1.diaryly.R
 
-class MoodsAdapter(private val moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsAdapter.MoodsViewHolder>() {
+class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsAdapter.MoodsViewHolder>() {
 
     class MoodsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val moodDate: TextView = itemView.findViewById(R.id.moodsDate)
@@ -48,4 +48,10 @@ class MoodsAdapter(private val moodList: ArrayList<Moods>) : RecyclerView.Adapte
             else -> R.drawable.ic_launcher_foreground // Use a default emoji for unknown moods
         }
     }
+
+    fun updateData(newMoodList: ArrayList<Moods>) {
+        moodList = newMoodList
+        notifyDataSetChanged()
+    }
+
 }

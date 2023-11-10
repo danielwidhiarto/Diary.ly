@@ -22,6 +22,9 @@
         android:theme="@style/Theme.Diaryly"
         tools:targetApi="31">
         <activity
+            android:name=".moods.EditMoodsActivity"
+            android:exported="false" />
+        <activity
             android:name=".search.DetailSearchActivity"
             android:exported="false" />
         <activity
