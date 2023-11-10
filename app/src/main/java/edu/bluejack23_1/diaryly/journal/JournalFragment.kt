@@ -50,8 +50,9 @@ class JournalFragment : Fragment() {
                         val content = document.getString("content") ?: "No Content"
                         val image = document.getLong("image")?.toInt() ?: R.drawable.ic_launcher_background
                         val visibility = document.getString("visibility") ?: "No Data"
+                        val id = document.id // Retrieve the document ID
 
-                        journalList.add(Journal(title, date, content, image, visibility))
+                        journalList.add(Journal(id, title, date, content, image, visibility))
                     }
                     // Initialize the RecyclerView adapter and set the data
                     journalAdapter = JournalAdapter(journalList)

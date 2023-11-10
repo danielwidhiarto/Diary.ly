@@ -38,7 +38,7 @@ class JournalAdapter (private val journalList:ArrayList<Journal>)
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, JournalDetailActivity::class.java)
-            intent.putExtra("journalsId", journal) // Assuming journal.id is a String or an identifier
+            intent.putExtra("journalsId", journal.id) // Assuming journal.id is a String or an identifier
             context.startActivity(intent)
         }
     }

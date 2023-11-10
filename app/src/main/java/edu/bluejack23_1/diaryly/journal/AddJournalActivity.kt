@@ -91,12 +91,14 @@ class AddJournalActivity : AppCompatActivity() {
             val content = etContent.text.toString()
             val date = btnDateJournal.text.toString()
             val visibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
+            val documentRef = FirebaseFirestore.getInstance().collection("journals").document()
+            val journalId = documentRef.id
             // Create a Journal object or a data class based on your requirements
             if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
             } else {
                 // All required fields are filled; proceed to create and save the journal
-                val journal = Journal(title, date, content, R.drawable.ic_launcher_background, visibility)
+                val journal = Journal(journalId, title, date, content, R.drawable.ic_launcher_background, visibility)
                 saveJournalToFirestore(journal)
             }
         }
@@ -175,6 +177,8 @@ class AddJournalActivity : AppCompatActivity() {
 
             // Add a new document with the journal data
             val journalData = HashMap<String, Any>()
+            val documentRef = collectionRef.document() // Creates a new document with a unique ID
+            journalData["id"] = documentRef.id // Set the unique ID for the mood entry
             journalData["title"] = journal.title
             journalData["date"] = journal.date
             journalData["content"] = journal.content

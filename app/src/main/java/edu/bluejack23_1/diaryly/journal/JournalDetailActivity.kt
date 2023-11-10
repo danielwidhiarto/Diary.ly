@@ -1,70 +1,101 @@
 package edu.bluejack23_1.diaryly.journal
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.bluejack23_1.diaryly.R
 
 class JournalDetailActivity : AppCompatActivity() {
+
     private lateinit var tvJournalTitle: TextView
     private lateinit var tvJournalDate: TextView
     private lateinit var tvJournalContent: TextView
-    private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
-
-    private lateinit var firestore: FirebaseFirestore
-    private lateinit var journalReference: DocumentReference
+    private lateinit var btnUpdate: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_journal_detail)
 
-        // Initialize views
         tvJournalTitle = findViewById(R.id.tvJournalTitle)
         tvJournalDate = findViewById(R.id.tvJournalDate)
         tvJournalContent = findViewById(R.id.tvJournalContent)
-        btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
+        btnUpdate = findViewById(R.id.btnUpdate)
 
-        // Initialize Firestore
-        firestore = FirebaseFirestore.getInstance()
+        val journalId = intent.getStringExtra("journalsId")
+        val title = intent.getStringExtra("journalTitle")
+        val content = intent.getStringExtra("journalContent")
+        val date = intent.getStringExtra("journalDate")
 
-        // Retrieve the journal document ID from intent
-        val journalPath = intent.getStringExtra("journalId")
+        val db = FirebaseFirestore.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-        if (journalPath != null) {
-            Log.d("JournalDetailActivity", "journalPath: $journalPath")
+        btnDelete.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Delete Journal")
+                .setMessage("Are you sure you want to delete this journal?")
+                .setPositiveButton("Delete") { dialog, _ ->
+                    val db = FirebaseFirestore.getInstance()
 
-            // Set Firestore document reference to the specific journal
-            journalReference = firestore.document(journalPath)
-
-            // Fetch and display journal data
-            journalReference.get()
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        val journal = documentSnapshot.toObject(Journal::class.java)
-                        if (journal != null) {
-                            // Display journal data
-                            tvJournalTitle.text = journal.title
-                            tvJournalDate.text = journal.date
-                            tvJournalContent.text = journal.content
-                        }
-                    } else {
-                        // Handle the case where the journal document does not exist
-                        // For example, display an error message or return to the previous screen
-                        Toast.makeText(this, "Journal not found", Toast.LENGTH_SHORT).show()
+                    if (journalId != null) {
+                        db.collection("journals")
+                            .document(journalId)
+                            .delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Journal deleted successfully", Toast.LENGTH_SHORT).show()
+                                finish() // Close the activity after deletion
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to delete the journal", Toast.LENGTH_SHORT).show()
+                            }
                     }
+                    dialog.dismiss()
                 }
-                .addOnFailureListener { e ->
-                    // Handle errors
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
                 }
-        } else {
-            Toast.makeText(this, "Journal ID not found", Toast.LENGTH_SHORT).show()
+                .show()
+
         }
+
+        btnUpdate.setOnClickListener {
+            val intent = Intent(this, EditJournalActivity::class.java)
+
+            // Assuming journalId, title, content, and date are retrieved from the intent
+            intent.putExtra("journalId", journalId)
+            intent.putExtra("journalTitle", title)
+            intent.putExtra("journalContent", content)
+            intent.putExtra("journalDate", date)
+
+            startActivity(intent)
+        }
+
+        if (userId != null && journalId != null) {
+            db.collection("journals")
+                .document(journalId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val title = documentSnapshot.getString("title") ?: "No Title"
+                    val date = documentSnapshot.getString("date") ?: "No Date"
+                    val content = documentSnapshot.getString("content") ?: "No Content"
+
+                    tvJournalTitle.text = title
+                    tvJournalDate.text = date
+                    tvJournalContent.text = content
+                }
+                .addOnFailureListener { exception ->
+                    // Handle errors here
+                }
+        }
+
+        // Set click listeners for buttons, implement delete and update actions
+        // Link the fetched data with TextViews and handle delete/update functionality
     }
 }
