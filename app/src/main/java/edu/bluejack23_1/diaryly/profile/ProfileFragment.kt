@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -60,29 +59,47 @@ class ProfileFragment : Fragment() {
             builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
                 val user = firebaseAuth.currentUser // Get the current user
 
-                // Delete user data from Firestore
-                firestore.collection("users").document(user!!.uid).delete()
-                    .addOnSuccessListener {
-                        Log.d("ProfileFragment", "User data has been deleted from Firestore.")
-
-                        // After successfully deleting from Firestore, proceed to delete the authentication
-                        user.delete().addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                // User account has been deleted from authentication
-                                Log.d("ProfileFragment", "User account has been deleted.")
-                                Toast.makeText(this.context, "Account Successfully Deleted!", Toast.LENGTH_SHORT).show()
-
-                                // Navigate to the login activity.
-                                val intent = Intent(context, LoginActivity::class.java)
-                                startActivity(intent)
-                            } else {
-                                // User account could not be deleted from authentication
-                                Log.w("ProfileFragment", "User account could not be deleted from authentication.", task.exception)
-                            }
+                // First, delete all journals related to the user
+                firestore.collection("journals")
+                    .whereEqualTo("userId", user!!.uid)
+                    .get()
+                    .addOnSuccessListener { journalResult ->
+                        for (document in journalResult) {
+                            firestore.collection("journals").document(document.id).delete()
+                                .addOnSuccessListener {
+                                    Log.d("ProfileFragment", "Journal deleted")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("ProfileFragment", "Error deleting journal", e)
+                                }
                         }
+
+                        // Then, delete the user data from Firestore
+                        firestore.collection("users").document(user.uid).delete()
+                            .addOnSuccessListener {
+                                Log.d("ProfileFragment", "User data has been deleted from Firestore.")
+
+                                // After successfully deleting from Firestore, proceed to delete the authentication
+                                user.delete().addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // User account has been deleted from authentication
+                                        Log.d("ProfileFragment", "User account has been deleted.")
+
+                                        // Navigate to the login activity.
+                                        val intent = Intent(context, LoginActivity::class.java)
+                                        startActivity(intent)
+                                    } else {
+                                        // User account could not be deleted from authentication
+                                        Log.w("ProfileFragment", "User account could not be deleted from authentication.", task.exception)
+                                    }
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("ProfileFragment", "Error deleting user data from Firestore.", e)
+                            }
                     }
-                    .addOnFailureListener { e ->
-                        Log.w("ProfileFragment", "Error deleting user data from Firestore.", e)
+                    .addOnFailureListener { journalException ->
+                        Log.e("ProfileFragment", "Error fetching journals", journalException)
                     }
             })
             builder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
