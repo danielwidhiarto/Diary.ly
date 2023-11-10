@@ -1,5 +1,6 @@
 package edu.bluejack23_1.diaryly.moods
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -24,6 +25,7 @@ class EditMoodsActivity : AppCompatActivity() {
     private lateinit var etNotes: EditText
     private lateinit var saveButton: ImageButton
     private lateinit var backButton: AppCompatImageView
+    private lateinit var deleteButton: ImageButton
 
     private var chosenMoodLevel: String = "Chosen Mood"
 
@@ -48,6 +50,7 @@ class EditMoodsActivity : AppCompatActivity() {
         etNotes = findViewById(R.id.etNotes)
         saveButton = findViewById(R.id.saveButton)
         backButton = findViewById(R.id.backButton)
+        deleteButton = findViewById(R.id.deleteButton)
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -99,6 +102,23 @@ class EditMoodsActivity : AppCompatActivity() {
 
         backButton.setOnClickListener {
             finish()
+        }
+
+        deleteButton.setOnClickListener {
+            val moodId = intent.getStringExtra("MOOD_ID")
+
+            if (moodId != null) {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder.setMessage("Are you sure you want to delete this mood entry?")
+                alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                    // Perform the delete operation
+                    deleteMoodFromFirestore(moodId)
+                }
+                alertDialogBuilder.setNegativeButton("No") { dialog, which -> dialog.dismiss() }
+                alertDialogBuilder.create().show()
+            } else {
+                Toast.makeText(this, "No mood selected for deletion", Toast.LENGTH_SHORT).show()
+            }
         }
 
         saveButton.setOnClickListener {
@@ -176,4 +196,21 @@ class EditMoodsActivity : AppCompatActivity() {
         }
 
         moodTextView.text = chosenMoodLevel
-    }}
+    }
+
+    private fun deleteMoodFromFirestore(moodId: String) {
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("moods").document(moodId)
+
+        docRef.delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Mood deleted successfully", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error deleting mood: $e", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+}
