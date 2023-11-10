@@ -1,5 +1,6 @@
 package edu.bluejack23_1.diaryly.moods
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import edu.bluejack23_1.diaryly.R
 class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsAdapter.MoodsViewHolder>() {
 
     class MoodsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val editMoods: TextView = itemView.findViewById(R.id.tvEdit)
         val moodDate: TextView = itemView.findViewById(R.id.moodsDate)
         val moodTime: TextView = itemView.findViewById(R.id.moodsTime)
         val moodDescription: TextView = itemView.findViewById(R.id.moods)
@@ -36,6 +38,15 @@ class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsA
 
         // Set the emoji based on the chosenMood
         holder.moodEmoji.setImageResource(getEmojiResource(mood.chosenMood))
+
+        holder.editMoods.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, EditMoodsActivity::class.java)
+//            intent.putExtra("MOOD_ID", mood.id) // Pass the mood ID to EditActivity
+            context.startActivity(intent)
+        }
+
+
     }
 
     private fun getEmojiResource(mood: String): Int {
