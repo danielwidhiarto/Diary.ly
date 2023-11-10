@@ -52,8 +52,9 @@ class MoodsFragment : Fragment() {
                         val date = document.getString("date") ?: "No Date"
                         val mood = document.getString("chosenMood") ?: "No Content"
                         val notes = document.getString("notes") ?: "No Data"
+                        val id = document.id // Retrieve the document ID
 
-                        val moodEntry = Moods(date, time, mood, notes)
+                        val moodEntry = Moods(id, date, time, mood, notes) // Update to include the ID
                         moodList.add(moodEntry)
                     }
 
@@ -72,13 +73,6 @@ class MoodsFragment : Fragment() {
             startActivity(intent)
         }
 
-//        // Find the "Edit" TextView
-//        val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
-//        tvEdit.setOnClickListener {
-//            // Handle the click event
-//            val intent = Intent(requireContext(), EditMoodsActivity::class.java)
-//            startActivity(intent)
-//        }
     }
 
 }

@@ -76,7 +76,10 @@ class AddMoodsActivity : AppCompatActivity() {
                 val notes = etNotes.text.toString()
 
                 // Create a MoodEntry object
-                val moodEntry = Moods(date, time, chosenMood, notes)
+                val documentRef = FirebaseFirestore.getInstance().collection("moods").document()
+                val moodId = documentRef.id
+
+                val moodEntry = Moods(moodId, date, time, chosenMood, notes)
 
                 saveMoodsToFirestore(moodEntry)
             }
@@ -95,9 +98,10 @@ class AddMoodsActivity : AppCompatActivity() {
         if (userId != null) {
             // Reference to the "journals" collection
             val collectionRef = db.collection("moods")
-
+            val documentRef = collectionRef.document() // Creates a new document with a unique ID
             // Add a new document with the Moods data
             val moodData = HashMap<String, Any>()
+            moodData["id"] = documentRef.id // Set the unique ID for the mood entry
             moodData["date"] = moods.date
             moodData["time"] = moods.time
             moodData["chosenMood"] = moods.chosenMood

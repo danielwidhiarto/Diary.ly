@@ -42,7 +42,7 @@ class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsA
         holder.editMoods.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, EditMoodsActivity::class.java)
-//            intent.putExtra("MOOD_ID", mood.id) // Pass the mood ID to EditActivity
+            intent.putExtra("MOOD_ID", mood.id) // Pass the mood ID to EditActivity
             context.startActivity(intent)
         }
 
