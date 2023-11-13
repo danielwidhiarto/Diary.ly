@@ -6,6 +6,9 @@ data class Journal(
     val title: String,
     val date: String,
     val content: String,
-    val image: Int,
+    val image_url: String,
     val visibility: String
-) : Serializable
+
+) : Serializable {
+    constructor() : this("", "", "", "", "", "")
+}

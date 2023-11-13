@@ -168,7 +168,6 @@ class EditProfileActivity : AppCompatActivity() {
             userDocument.update(userData as Map<String, Any>).addOnSuccessListener {
                 // Update successful
 
-// Update the user's email address in Firebase Auth
                 firebaseAuth.currentUser!!.updateEmail(email).addOnCompleteListener { emailTask ->
                     if (emailTask.isSuccessful) {
                         // Update the user's password in Firebase Auth

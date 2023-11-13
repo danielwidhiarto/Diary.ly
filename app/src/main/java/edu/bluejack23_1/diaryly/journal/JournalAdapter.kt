@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import edu.bluejack23_1.diaryly.R
 
 class JournalAdapter (private val journalList:ArrayList<Journal>)
@@ -30,10 +31,16 @@ class JournalAdapter (private val journalList:ArrayList<Journal>)
 
     override fun onBindViewHolder(holder: JournalViewHolder, position: Int) {
         val journal = journalList[position]
-        holder.imageJournal.setImageResource(journal.image)
         holder.journalTitle.text = journal.title
         holder.journalContent.text = journal.content
         holder.journaldate.text = journal.date
+
+        // Load and display the user's profile image using Picasso
+        if (!journal.image_url.isNullOrEmpty()) {
+            Picasso.get().load(journal.image_url).into(holder.imageJournal)
+        } else {
+            // Handle the case where the profile image URL is not available or empty
+        }
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
