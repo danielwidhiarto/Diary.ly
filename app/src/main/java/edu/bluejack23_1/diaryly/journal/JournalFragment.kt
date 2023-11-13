@@ -48,11 +48,11 @@ class JournalFragment : Fragment() {
                         val title = document.getString("title") ?: "No Title"
                         val date = document.getString("date") ?: "No Date"
                         val content = document.getString("content") ?: "No Content"
-                        val image = document.getLong("image")?.toInt() ?: R.drawable.ic_launcher_background
+                        val imageUrl = document.getString("image") ?: "" // Get the image URL from Firestore
                         val visibility = document.getString("visibility") ?: "No Data"
                         val id = document.id // Retrieve the document ID
 
-                        journalList.add(Journal(id, title, date, content, image, visibility))
+                        journalList.add(Journal(id, title, date, content, imageUrl, visibility))
                     }
                     // Initialize the RecyclerView adapter and set the data
                     journalAdapter = JournalAdapter(journalList)

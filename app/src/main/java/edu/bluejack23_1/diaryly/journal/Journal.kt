@@ -10,5 +10,4 @@ data class Journal(
     val visibility: String
 
 ) : Serializable {
-    constructor() : this("", "", "", "", "", "")
 }

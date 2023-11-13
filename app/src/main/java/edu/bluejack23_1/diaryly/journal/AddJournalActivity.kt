@@ -16,12 +16,10 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import edu.bluejack23_1.diaryly.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -85,23 +83,6 @@ class AddJournalActivity : AppCompatActivity() {
         // Get the current user's ID
         val userId = firebaseAuth.currentUser!!.uid
 
-        btnAddJournal.setOnClickListener {
-            // Capture user input
-            val title = etJournalTitle.text.toString()
-            val content = etContent.text.toString()
-            val date = btnDateJournal.text.toString()
-            val visibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
-            val documentRef = FirebaseFirestore.getInstance().collection("journals").document()
-            val journalId = documentRef.id
-            // Create a Journal object or a data class based on your requirements
-            if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
-                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
-            } else {
-                // All required fields are filled; proceed to create and save the journal
-                val journal = Journal(journalId, title, date, content, R.drawable.ic_launcher_background, visibility)
-                saveJournalToFirestore(journal)
-            }
-        }
 
         btnDateJournal.setOnClickListener {
             showDatePickerDialog()
@@ -145,6 +126,40 @@ class AddJournalActivity : AppCompatActivity() {
             }
             builder.show()
         }
+
+        btnAddJournal.setOnClickListener {
+            // Capture user input
+            val title = etJournalTitle.text.toString()
+            val content = etContent.text.toString()
+            val date = btnDateJournal.text.toString()
+            val visibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
+            val documentRef = FirebaseFirestore.getInstance().collection("journals").document()
+            val journalId = documentRef.id
+            // Create a Journal object or a data class based on your requirements
+            if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
+                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                if (selectedImageUri != null) {
+                    // Image is selected, upload it to Firebase Storage
+                    val journal = Journal(
+                        journalId,
+                        title,
+                        date,
+                        content,
+                        "",
+                        visibility
+                    ) // Set the image as an empty string for now
+                    saveJournalToFirestore(journal) // Save other journal details to Firestore
+
+                    // Upload the image to Firebase Storage and update Firestore with the image URL after upload
+                    uploadImageToStorage(selectedImageUri!!, journalId)
+                } else {
+                    val journal = Journal(journalId, title, date, content, "", visibility)
+                    saveJournalToFirestore(journal)
+                }
+            }
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -162,7 +177,7 @@ class AddJournalActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-        private fun saveJournalToFirestore(journal: Journal) {
+    private fun saveJournalToFirestore(journal: Journal) {
         // Initialize Firestore
         val db = FirebaseFirestore.getInstance()
 
@@ -177,12 +192,13 @@ class AddJournalActivity : AppCompatActivity() {
 
             // Add a new document with the journal data
             val journalData = HashMap<String, Any>()
+
             val documentRef = collectionRef.document() // Creates a new document with a unique ID
             journalData["id"] = documentRef.id // Set the unique ID for the mood entry
             journalData["title"] = journal.title
             journalData["date"] = journal.date
             journalData["content"] = journal.content
-            journalData["image"] = journal.image
+            journalData["image"] = journal.image_url
             journalData["visibility"] = journal.visibility
             journalData["userId"] = userId
 
@@ -190,6 +206,7 @@ class AddJournalActivity : AppCompatActivity() {
                 .addOnSuccessListener { documentReference ->
                     // Document was added successfully
                     Toast.makeText(this, "Journal added to Firestore", Toast.LENGTH_SHORT).show()
+
                     finish()
                 }
                 .addOnFailureListener { e ->
@@ -203,22 +220,22 @@ class AddJournalActivity : AppCompatActivity() {
         val fileReference = storageReference.child("$documentId.${getFileExtension(imageUri)}")
 
         fileReference.putFile(imageUri)
-            .addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+            .addOnSuccessListener { taskSnapshot ->
                 // Image upload was successful, you can get the image URL if needed
                 taskSnapshot.storage.downloadUrl
                     .addOnSuccessListener { downloadUrl ->
                         val imageUrl = downloadUrl.toString()
                         // Now you can save the image URL in the Firestore document
-                        updateImageInFirestore(imageUrl, documentId)
+                        addImageInFirestore(imageUrl, documentId) // Corrected function name
                     }
-            })
+            }
             .addOnFailureListener { e ->
                 // Handle any errors here
                 Toast.makeText(this, "Error uploading image: $e", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun updateImageInFirestore(imageUrl: String, documentId: String) {
+    private fun addImageInFirestore(imageUrl: String, documentId: String) {
         val collectionRef = firestore.collection("journals")
         val documentRef = collectionRef.document(documentId)
 
