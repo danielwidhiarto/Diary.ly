@@ -217,26 +217,26 @@ class AddJournalActivity : AppCompatActivity() {
     }
 
     private fun uploadImageToStorage(imageUri: Uri, documentId: String) {
-        val fileReference = storageReference.child("$documentId.${getFileExtension(imageUri)}")
+        val storageReference = FirebaseStorage.getInstance().reference.child("journal_images/$documentId.jpg")
 
-        fileReference.putFile(imageUri)
+        storageReference.putFile(imageUri)
             .addOnSuccessListener { taskSnapshot ->
-                // Image upload was successful, you can get the image URL if needed
-                taskSnapshot.storage.downloadUrl
+                // Image uploaded successfully, get the download URL
+                storageReference.downloadUrl
                     .addOnSuccessListener { downloadUrl ->
                         val imageUrl = downloadUrl.toString()
-                        // Now you can save the image URL in the Firestore document
-                        addImageInFirestore(imageUrl, documentId) // Corrected function name
+                        // Save the image URL in the Firestore document
+                        addImageInFirestore(imageUrl, documentId)
                     }
             }
             .addOnFailureListener { e ->
-                // Handle any errors here
+                // Handle any upload errors
                 Toast.makeText(this, "Error uploading image: $e", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun addImageInFirestore(imageUrl: String, documentId: String) {
-        val collectionRef = firestore.collection("journals")
+        val collectionRef = FirebaseFirestore.getInstance().collection("journals")
         val documentRef = collectionRef.document(documentId)
 
         documentRef.update("image", imageUrl)
@@ -245,10 +245,11 @@ class AddJournalActivity : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener { e ->
-                // Handle any errors here
+                // Handle Firestore update errors
                 Toast.makeText(this, "Error updating image in Firestore: $e", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     private fun getFileExtension(uri: Uri): String {
         val contentResolver: ContentResolver = contentResolver
