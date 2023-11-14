@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ class JournalDetailActivity : AppCompatActivity() {
     private lateinit var tvJournalContent: TextView
     private lateinit var btnDelete: Button
     private lateinit var btnUpdate: Button
+    private lateinit var btnBack : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class JournalDetailActivity : AppCompatActivity() {
         tvJournalContent = findViewById(R.id.tvJournalContent)
         btnDelete = findViewById(R.id.btnDelete)
         btnUpdate = findViewById(R.id.btnUpdate)
+        btnBack = findViewById(R.id.backButton)
 
         val journalId = intent.getStringExtra("journalsId")
         val title = intent.getStringExtra("journalTitle")
@@ -36,6 +39,10 @@ class JournalDetailActivity : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        btnBack.setOnClickListener {
+            finish()
+        }
 
         btnDelete.setOnClickListener {
             AlertDialog.Builder(this)

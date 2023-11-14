@@ -250,7 +250,6 @@ class AddJournalActivity : AppCompatActivity() {
             }
     }
 
-
     private fun getFileExtension(uri: Uri): String {
         val contentResolver: ContentResolver = contentResolver
         val mimeTypeMap = MimeTypeMap.getSingleton()
