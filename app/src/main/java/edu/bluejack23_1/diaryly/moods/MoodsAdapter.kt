@@ -49,8 +49,6 @@ class MoodsAdapter(var moodList: ArrayList<Moods>) : RecyclerView.Adapter<MoodsA
             intent.putExtra("notes", mood.notes)
             context.startActivity(intent)
         }
-
-
     }
 
     private fun getEmojiResource(mood: String): Int {
