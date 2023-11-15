@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_gravity="center"
-        android:text="Edit Moods"
+        android:text="@string/edit_moods"
         android:textAlignment="center"
         android:textSize="32sp" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="25dp"
-        android:text="Date"
+        android:text="@string/date"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContent" />
@@ -45,7 +45,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="10dp"
-        android:text="Enter Moods Date"
+        android:text="@string/enter_moods_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="25dp"
-        android:text="Time"
+        android:text="@string/time"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContent" />
@@ -66,7 +66,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="10dp"
-        android:text="Enter Moods Time"
+        android:text="@string/enter_moods_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
-        android:text="Choose Moods"
+        android:text="@string/choose_moods"
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -160,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
-        android:text="Notes"
+        android:text="@string/notes"
         android:layout_marginBottom="25dp"
         android:textAlignment="center"
         android:textSize="24sp" />
@@ -171,7 +171,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="5dp"
-        android:hint="Enter Notes"
+        android:hint="@string/enter_notes"
         android:layout_marginBottom="25dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +183,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="51dp"
-            android:contentDescription="Check Del Button"
+            android:contentDescription="@string/check_del_button"
             android:foregroundGravity="center"
             android:src="@mipmap/delete_icon"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="86dp"
-            android:contentDescription="Check Confirm Button"
+            android:contentDescription="@string/check_confirm_button"
             android:src="@mipmap/plus_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

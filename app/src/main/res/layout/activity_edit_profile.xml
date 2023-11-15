@@ -163,7 +163,7 @@
         android:layout_height="115dp"
         android:layout_marginEnd="241dp"
         android:layout_marginBottom="34dp"
-        android:contentDescription="img profile"
+        android:contentDescription="@string/image_profile"
         app:layout_constraintBottom_toTopOf="@+id/tvUsername"
         app:layout_constraintEnd_toEndOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

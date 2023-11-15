@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="97dp"
-        android:text="Add New Journal"
+        android:text="@string/add_new_journal"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="28dp"
-        android:text="Journal Title"
+        android:text="@string/journal_title"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
@@ -48,7 +48,7 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Enter Journal Title"
+        android:hint="@string/enter_journal_title"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvJournalTitle" />
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="19dp"
-        android:text="Content"
+        android:text="@string/content"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etJournal" />
@@ -73,7 +73,7 @@
         android:layout_marginTop="11dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="Enter Journal Content "
+        android:hint="@string/enter_journal_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvContent" />
 
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="16dp"
-        android:text="Date"
+        android:text="@string/date"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContent" />
@@ -94,7 +94,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="11dp"
-        android:text="Enter Journal Date"
+        android:text="@string/enter_journal_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="18dp"
-        android:text="Upload Image"
+        android:text="@string/upload_image"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDateJournal" />
@@ -115,7 +115,7 @@
         android:layout_height="115dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="28dp"
-        android:contentDescription="img profile"
+        android:contentDescription="@string/image_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUploadImg"
         tools:srcCompat="@tools:sample/avatars" />
@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="36dp"
-        android:text="Journal Visibility"
+        android:text="@string/journal_visibility"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnImage" />
@@ -144,7 +144,7 @@
             android:id="@+id/rdbtnPrivate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Private"
+            android:text="@string/private_post"
             tools:layout_editor_absoluteX="95dp"
             tools:layout_editor_absoluteY="561dp" />
 
@@ -152,7 +152,7 @@
             android:id="@+id/rdbtnPublic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Public"
+            android:text="@string/public_post"
             tools:layout_editor_absoluteX="204dp"
             tools:layout_editor_absoluteY="538dp" />
 
@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="140dp"
         android:layout_marginBottom="88dp"
-        android:text="Add Journal"
+        android:text="@string/add_journal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

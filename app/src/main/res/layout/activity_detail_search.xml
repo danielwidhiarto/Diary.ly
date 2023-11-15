@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="45dp"
-        android:contentDescription="Back Button"
+        android:contentDescription="@string/back_button"
         android:src="@drawable/back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="34dp"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/imgProfile"
         app:layout_constraintStart_toStartOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_height="52dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="297dp"
-        android:text="Total Journal"
+        android:text="@string/total_journal"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="parent" />
 
