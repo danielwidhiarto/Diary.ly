@@ -36,8 +36,8 @@
         android:id="@+id/btnTotalJournal"
         android:layout_width="194dp"
         android:layout_height="52dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="297dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="228dp"
         android:text="@string/total_journal"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,10 +47,18 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="492dp"
+        android:layout_marginBottom="596dp"
         android:contentDescription="@string/profilePicture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:src="@tools:sample/avatars" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="545dp"
+        android:layout_marginTop="175dp"
+        app:layout_constraintTop_toTopOf="@id/imgProfile"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

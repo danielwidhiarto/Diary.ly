@@ -36,8 +36,8 @@ class JournalAdapter (private val journalList:ArrayList<Journal>)
         holder.journaldate.text = journal.date
 
         // Load and display the user's profile image using Picasso
-        if (!journal.image_url.isNullOrEmpty()) {
-            Picasso.get().load(journal.image_url).into(holder.imageJournal)
+        if (!journal.image.isNullOrEmpty()) {
+            Picasso.get().load(journal.image).into(holder.imageJournal)
         } else {
             // Handle the case where the profile image URL is not available or empty
         }

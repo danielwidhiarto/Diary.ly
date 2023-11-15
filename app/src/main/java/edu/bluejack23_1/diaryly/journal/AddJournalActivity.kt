@@ -198,7 +198,7 @@ class AddJournalActivity : AppCompatActivity() {
             journalData["title"] = journal.title
             journalData["date"] = journal.date
             journalData["content"] = journal.content
-            journalData["image"] = journal.image_url
+            journalData["image"] = journal.image
             journalData["visibility"] = journal.visibility
             journalData["userId"] = userId
 
