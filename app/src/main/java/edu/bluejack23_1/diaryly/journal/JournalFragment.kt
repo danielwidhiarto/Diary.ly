@@ -39,27 +39,39 @@ class JournalFragment : Fragment() {
 // Get the UID of the currently logged-in user
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
+        var journalAdapter: JournalAdapter? = null // Initialize the adapter as nullable
+
         if (userId != null) {
             db.collection("journals")
                 .whereEqualTo("userId", userId) // Only fetch journals associated with the current user
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        // Handle errors here
+                        return@addSnapshotListener
+                    }
+
+                    journalList.clear() // Clear the existing list
+
+                    for (document in snapshot!!) {
                         val title = document.getString("title") ?: "No Title"
                         val date = document.getString("date") ?: "No Date"
                         val content = document.getString("content") ?: "No Content"
-                        val imageUrl = document.getString("image") ?: "" // Get the image URL from Firestore
+                        val imageUrl =
+                            document.getString("image") ?: "" // Get the image URL from Firestore
                         val visibility = document.getString("visibility") ?: "No Data"
                         val id = document.id // Retrieve the document ID
 
                         journalList.add(Journal(id, title, date, content, imageUrl, visibility))
                     }
-                    // Initialize the RecyclerView adapter and set the data
-                    journalAdapter = JournalAdapter(journalList)
-                    recyclerView.adapter = journalAdapter
-                }
-                .addOnFailureListener { exception ->
-                    // Handle errors here
+
+                    // Initialize the adapter if it's null
+                    if (journalAdapter == null) {
+                        journalAdapter = JournalAdapter(journalList)
+                        recyclerView.adapter = journalAdapter
+                    } else {
+                        // Notify the adapter that the data has changed
+                        journalAdapter!!.notifyDataSetChanged()
+                    }
                 }
         }
 
