@@ -1,6 +1,5 @@
 package edu.bluejack23_1.diaryly.journal
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -86,11 +85,14 @@ class EditJournalActivity : AppCompatActivity() {
             // Call a function to update the journal data
             updateJournal(journalId)
 
-            // Redirect back to JournalDetailActivity without finishing EditJournalActivity
-            val intent = Intent(this, JournalDetailActivity::class.java)
-            // Pass the journalId to JournalDetailActivity if needed
-            intent.putExtra("journalsId", journalId)
-            startActivity(intent)
+            finish()
+
+//            // Redirect back to JournalDetailActivity without finishing EditJournalActivity
+//            val intent = Intent(this, JournalDetailActivity::class.java)
+//            // Pass the journalId to JournalDetailActivity if needed
+//            intent.putExtra("journalsId", journalId)
+//            startActivity(intent)
+
 
         }
     }
