@@ -1,20 +1,17 @@
 package edu.bluejack23_1.diaryly.journal
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,32 +30,26 @@ class AddJournalActivity : AppCompatActivity() {
     private lateinit var rdbtnPublic: RadioButton
     private lateinit var btnAddJournal: Button
     private lateinit var btnImageView: ImageButton
-    private lateinit var btnBackButton : ImageView
+    private lateinit var btnBackButton: ImageView
     private lateinit var firestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
-    private var selectedImageUri: Uri? = null
     private val imageStoragePath = "journal_images/"
-
+    private var selectedImageUri: Uri? = null
 
     companion object {
         private const val IMAGE_PICKER_REQUEST_CODE = 100
-        private const val CAMERA_REQUEST_CODE = 101
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == AddJournalActivity.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             selectedImageUri = data?.data
             if (selectedImageUri != null) {
-                // Set the selected image on the ImageButton
+                // Set the selected image on the ImageButton or perform any other necessary action
                 btnImageView.setImageURI(selectedImageUri)
             }
-        } else if (requestCode == AddJournalActivity.CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            // You can also set the captured image as the background of the ImageButton
-            btnImageView.setImageBitmap(imageBitmap)
         }
     }
 
@@ -94,30 +85,24 @@ class AddJournalActivity : AppCompatActivity() {
 
         btnImageView.setOnClickListener {
             val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Choose Action")
             builder.setItems(options) { dialog, item ->
                 when (options[item]) {
                     "Take Photo" -> {
-                        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (cameraIntent.resolveActivity(packageManager) != null) {
-                            startActivityForResult(cameraIntent,
-                                AddJournalActivity.CAMERA_REQUEST_CODE
-                            )
-                        } else {
-                            Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
-                        }
+                        // Similar to your EditProfileActivity
+                        // Launch camera intent
                     }
                     "Choose from Gallery" -> {
-                        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        val galleryIntent =
+                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         galleryIntent.type = "image/*"
 
                         val mimeTypes = arrayOf("image/jpeg", "image/png")
                         galleryIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 
-                        startActivityForResult(galleryIntent,
-                            AddJournalActivity.IMAGE_PICKER_REQUEST_CODE
-                        )
+                        startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
                     }
                     "Cancel" -> {
                         dialog.dismiss()
@@ -127,6 +112,7 @@ class AddJournalActivity : AppCompatActivity() {
             builder.show()
         }
 
+
         btnAddJournal.setOnClickListener {
             // Capture user input
             val title = etJournalTitle.text.toString()
@@ -135,27 +121,46 @@ class AddJournalActivity : AppCompatActivity() {
             val visibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
             val documentRef = FirebaseFirestore.getInstance().collection("journals").document()
             val journalId = documentRef.id
+
             // Create a Journal object or a data class based on your requirements
             if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT)
                     .show()
             } else {
+// Check if an image is selected
                 if (selectedImageUri != null) {
-                    // Image is selected, upload it to Firebase Storage
+                    // If an image is selected, upload it to Firebase Storage
+                    val imageRef =
+                        storageReference.child("journal_images/$journalId/journal_image.jpg")
+                    imageRef.putFile(selectedImageUri!!)
+                        .addOnSuccessListener { taskSnapshot ->
+                            // Image upload was successful
+                            // You can get the download URL for the image
+                            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                val imageUrl = uri.toString()
+                                // Create a Journal object with the image URL
+                                val journal = Journal(
+                                    journalId,
+                                    title,
+                                    date,
+                                    content,
+                                    imageUrl,
+                                    visibility
+                                )
+                                // Save the journal to Firestore
+                                saveJournalToFirestore(journal)
+                            }
+                        }
+                } else {
+                    // If no image is selected, directly save other journal details to Firestore
                     val journal = Journal(
                         journalId,
                         title,
                         date,
                         content,
-                        "",
+                        "", // Empty string for image URL
                         visibility
-                    ) // Set the image as an empty string for now
-                    saveJournalToFirestore(journal) // Save other journal details to Firestore
-
-                    // Upload the image to Firebase Storage and update Firestore with the image URL after upload
-                    uploadImageToStorage(selectedImageUri!!, journalId)
-                } else {
-                    val journal = Journal(journalId, title, date, content, "", visibility)
+                    )
                     saveJournalToFirestore(journal)
                 }
             }
@@ -193,8 +198,8 @@ class AddJournalActivity : AppCompatActivity() {
             // Add a new document with the journal data
             val journalData = HashMap<String, Any>()
 
-            val documentRef = collectionRef.document() // Creates a new document with a unique ID
-            journalData["id"] = documentRef.id // Set the unique ID for the mood entry
+            val documentRef = collectionRef.document(journal.id)
+            journalData["id"] = journal.id // Set the unique ID for the mood entry
             journalData["title"] = journal.title
             journalData["date"] = journal.date
             journalData["content"] = journal.content
@@ -214,45 +219,5 @@ class AddJournalActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error adding journal: $e", Toast.LENGTH_SHORT).show()
                 }
         }
-    }
-
-    private fun uploadImageToStorage(imageUri: Uri, documentId: String) {
-        val storageReference = FirebaseStorage.getInstance().reference.child("journal_images/$documentId.jpg")
-
-        storageReference.putFile(imageUri)
-            .addOnSuccessListener { taskSnapshot ->
-                // Image uploaded successfully, get the download URL
-                storageReference.downloadUrl
-                    .addOnSuccessListener { downloadUrl ->
-                        val imageUrl = downloadUrl.toString()
-                        // Save the image URL in the Firestore document
-                        addImageInFirestore(imageUrl, documentId)
-                    }
-            }
-            .addOnFailureListener { e ->
-                // Handle any upload errors
-                Toast.makeText(this, "Error uploading image: $e", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun addImageInFirestore(imageUrl: String, documentId: String) {
-        val collectionRef = FirebaseFirestore.getInstance().collection("journals")
-        val documentRef = collectionRef.document(documentId)
-
-        documentRef.update("image", imageUrl)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Journal with image added to Firestore", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            .addOnFailureListener { e ->
-                // Handle Firestore update errors
-                Toast.makeText(this, "Error updating image in Firestore: $e", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun getFileExtension(uri: Uri): String {
-        val contentResolver: ContentResolver = contentResolver
-        val mimeTypeMap = MimeTypeMap.getSingleton()
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri)) ?: "jpg"
     }
 }
