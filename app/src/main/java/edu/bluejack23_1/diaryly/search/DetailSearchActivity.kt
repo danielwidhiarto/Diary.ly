@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -16,8 +17,9 @@ import edu.bluejack23_1.diaryly.journal.JournalAdapter
 class DetailSearchActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: JournalAdapter // Replace YourJournalAdapter with your actual adapter class
-    private val publicJournalsList = mutableListOf<Journal>()
+    private lateinit var adapter: JournalAdapter
+    private val journalList = ArrayList<Journal>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +31,11 @@ class DetailSearchActivity : AppCompatActivity() {
         val btnTotalJournal = findViewById<Button>(R.id.btnTotalJournal)
 
         recyclerView = findViewById(R.id.recycler_view)
-        adapter = JournalAdapter(ArrayList(publicJournalsList))
+        adapter = JournalAdapter(ArrayList(journalList))
         recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        var journalAdapter: JournalAdapter? = null // Initialize the adapter as nullable
 
         // Retrieve user data from intent extras
         val user = intent.getSerializableExtra("user") as UserModel
@@ -51,31 +56,40 @@ class DetailSearchActivity : AppCompatActivity() {
             finish()
         }
 
-        // Call the method to fetch and display public journals
-        fetchPublicJournals()
-    }
-
-
-    private fun fetchPublicJournals() {
         val firestore = FirebaseFirestore.getInstance()
         val journalsCollection = firestore.collection("journals")
 
-        // Query to fetch only public journals
-        journalsCollection.whereEqualTo("visibility", "Public")
+        // Query to fetch only journals of the specific user
+        journalsCollection.whereEqualTo("userId", user.userId)
+            .whereEqualTo("visibility", "Public")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    // Convert the document to your Journal class (replace Journal with your actual data class)
-                    val journal = document.toObject(Journal::class.java)
-                    publicJournalsList.add(journal)
+                    val title = document.getString("title") ?: "No Title"
+                    val date = document.getString("date") ?: "No Date"
+                    val content = document.getString("content") ?: "No Content"
+                    val imageUrl = document.getString("image") ?: ""
+                    val visibility = document.getString("visibility") ?: "No Data"
+                    val id = document.id
+
+                    journalList.add(Journal(id, title, date, content, imageUrl, visibility))
                 }
-                adapter.notifyDataSetChanged()
+
+                // Initialize the adapter if it's null
+                if (journalAdapter == null) {
+                    journalAdapter = JournalAdapter(journalList)
+                    recyclerView.adapter = journalAdapter
+                } else {
+                    // Notify the adapter that the data has changed
+                    journalAdapter!!.notifyDataSetChanged()
+                }
+
+                // Display the total number of journals
+                val totalJournals = journalList.size
+                btnTotalJournal.text = "Total Journals: $totalJournals"
             }
             .addOnFailureListener { exception ->
-                // Handle the failure, e.g., show an error message
+                // Handle errors here
             }
     }
-
 }
-
-
