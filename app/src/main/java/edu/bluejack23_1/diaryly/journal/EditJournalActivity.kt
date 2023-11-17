@@ -1,6 +1,10 @@
 package edu.bluejack23_1.diaryly.journal
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -9,6 +13,9 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import edu.bluejack23_1.diaryly.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -27,6 +34,27 @@ class EditJournalActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
+    private lateinit var storageReference: StorageReference
+    private val imageStoragePath = "journal_images/"
+    private var selectedImageUri: Uri? = null
+
+    companion object {
+        private const val IMAGE_PICKER_REQUEST_CODE = 100
+        private const val CAMERA_REQUEST_CODE = 101
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == EditJournalActivity.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            selectedImageUri = data?.data
+            if (selectedImageUri != null) {
+                // Set the selected image on the ImageButton or perform any other necessary action
+                btnImage.setImageURI(selectedImageUri)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_journal)
@@ -43,6 +71,8 @@ class EditJournalActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
+
+        storageReference = FirebaseStorage.getInstance().reference.child(imageStoragePath)
 
         // Retrieve the document ID from the Intent
         val journalId = intent.getStringExtra("journalId")
@@ -72,8 +102,7 @@ class EditJournalActivity : AppCompatActivity() {
 
         // Set click listener for the image button
         btnImage.setOnClickListener {
-            // Implement your logic for handling image selection
-            // For example, show an image picker dialog
+            showImagePickerDialog()
         }
 
         backbtn.setOnClickListener() {
@@ -84,18 +113,37 @@ class EditJournalActivity : AppCompatActivity() {
         btnAddJournal.setOnClickListener {
             // Call a function to update the journal data
             updateJournal(journalId)
-
             finish()
-
-//            // Redirect back to JournalDetailActivity without finishing EditJournalActivity
-//            val intent = Intent(this, JournalDetailActivity::class.java)
-//            // Pass the journalId to JournalDetailActivity if needed
-//            intent.putExtra("journalsId", journalId)
-//            startActivity(intent)
-
 
         }
     }
+
+    private fun showImagePickerDialog() {
+        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Choose Action")
+        builder.setItems(options) { dialog, item ->
+            when (options[item]) {
+                "Take Photo" -> {
+                    // Open the camera to capture an image
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+                }
+                "Choose from Gallery" -> {
+                    // Open the gallery to choose an image
+                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    galleryIntent.type = "image/*"
+                    startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
+                }
+                "Cancel" -> {
+                    dialog.dismiss()
+                }
+            }
+        }
+        builder.show()
+    }
+
 
     private fun fetchJournalData(journalId: String?) {
         // Check if the journalId is not null
@@ -112,6 +160,7 @@ class EditJournalActivity : AppCompatActivity() {
                         val content = documentSnapshot.getString("content")
                         val date = documentSnapshot.getString("date")
                         val visibility = documentSnapshot.getString("visibility")
+                        val imageUrl = documentSnapshot.getString("image")
 
                         // Set the retrieved data to the UI elements
                         etJournalTitle.setText(title)
@@ -124,6 +173,21 @@ class EditJournalActivity : AppCompatActivity() {
                         } else if (visibility == "Public") {
                             rdbtnPublic.isChecked = true
                         }
+
+                        // Load and display the image using Picasso or any other image loading library
+                        if (!imageUrl.isNullOrEmpty()) {
+                            // Load and display the image using Picasso or your preferred library
+                            Picasso.get()
+                                .load(imageUrl)
+                                .placeholder(R.drawable.default_profile_image) // Placeholder image
+                                .error(R.drawable.default_profile_image) // Error image (if loading fails)
+                                .into(btnImage)
+                        } else {
+                            // If no image URL is available, you can set a default image or hide the ImageView
+                            btnImage.setImageResource(R.drawable.default_profile_image)
+                            // Alternatively, you can hide the ImageView if you don't want to show a default image
+                            // btnImage.visibility = View.GONE
+                        }
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -133,33 +197,87 @@ class EditJournalActivity : AppCompatActivity() {
     }
 
     private fun updateJournal(journalId: String?) {
-        // Check if the journalId is not null
+        // Check if the journalId is not null...
         if (journalId != null) {
-            // Retrieve the edited data
+            // Retrieve the edited data...
             val editedTitle = etJournalTitle.text.toString()
             val editedContent = etContent.text.toString()
             val editedDate = btnDateJournal.text.toString()
-            // You may implement logic for handling image upload here
-            val editedVisibility = when {
-                rdbtnPrivate.isChecked -> "Private"
-                rdbtnPublic.isChecked -> "Public"
-                else -> ""
-            }
+            // You may implement logic for handling image upload here...
 
-            // Update the data in Firestore
-            firestore.collection("journals").document(journalId)
-                .update(
-                    "title", editedTitle,
-                    "content", editedContent,
-                    "date", editedDate,
-                    "visibility", editedVisibility
-                )
-                .addOnSuccessListener {
-                    // Handle the success, e.g., show a success message
-                }
-                .addOnFailureListener { exception ->
-                    // Handle the failure, e.g., show an error message
-                }
+            // Upload the image (if selected) and get the image URL...
+            uploadImageAndSaveJournal(journalId, editedTitle, editedContent, editedDate)
         }
     }
+
+    private fun uploadImageAndSaveJournal(
+        journalId: String,
+        editedTitle: String,
+        editedContent: String,
+        editedDate: String
+    ) {
+        // Check if an image is selected...
+        if (selectedImageUri != null) {
+            // Upload the image to Firebase Storage...
+            val imageRef = storageReference.child("$journalId/profile_image.jpg")
+            imageRef.putFile(selectedImageUri!!)
+                .addOnSuccessListener { taskSnapshot ->
+                    // Image upload was successful...
+                    // You can get the download URL for the image...
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val imageUrl = uri.toString()
+                        // Now you can update the journal data in Firestore, including the image URL...
+                        updateJournalDataWithImage(journalId, editedTitle, editedContent, editedDate, imageUrl)
+                    }
+                }
+        } else {
+            // No image selected, update the journal data without the image URL...
+            updateJournalData(journalId, editedTitle, editedContent, editedDate)
+        }
+    }
+
+    private fun updateJournalData(
+        journalId: String,
+        editedTitle: String,
+        editedContent: String,
+        editedDate: String
+    ) {
+        // Update the data in Firestore without the image URL...
+        firestore.collection("journals").document(journalId)
+            .update(
+                "title", editedTitle,
+                "content", editedContent,
+                "date", editedDate
+            )
+            .addOnSuccessListener {
+                // Handle the success, e.g., show a success message...
+            }
+            .addOnFailureListener { exception ->
+                // Handle the failure, e.g., show an error message...
+            }
+    }
+
+    private fun updateJournalDataWithImage(
+        journalId: String,
+        editedTitle: String,
+        editedContent: String,
+        editedDate: String,
+        imageUrl: String
+    ) {
+        // Update the data in Firestore with the image URL...
+        firestore.collection("journals").document(journalId)
+            .update(
+                "title", editedTitle,
+                "content", editedContent,
+                "date", editedDate,
+                "image", imageUrl
+            )
+            .addOnSuccessListener {
+                // Handle the success, e.g., show a success message...
+            }
+            .addOnFailureListener { exception ->
+                // Handle the failure, e.g., show an error message...
+            }
+    }
+
 }

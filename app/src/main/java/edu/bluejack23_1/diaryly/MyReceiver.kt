@@ -20,7 +20,7 @@ class MyReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher) // Replace with your app logo
-            .setContentTitle("Diary.ly")
+            .setContentTitle("Moods & Journal Reminder")
             .setContentText("Don't forget to input your journal and moods today!")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 

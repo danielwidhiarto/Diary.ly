@@ -54,10 +54,10 @@ class HomeActivity : AppCompatActivity() {
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val calendar = Calendar.getInstance()
-//        calendar.set(Calendar.HOUR_OF_DAY, 20) // 8 PM
-//        calendar.set(Calendar.MINUTE, 0)
-//        calendar.set(Calendar.SECOND, 5)
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 1) // 2 minutes from now
+        calendar.set(Calendar.HOUR_OF_DAY, 16) // 8 PM
+        calendar.set(Calendar.MINUTE, 33)
+        calendar.set(Calendar.SECOND, 0)
+//        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 1) // 2 minutes from now
 
 
         // Schedule the alarm to trigger at 8 PM every day
