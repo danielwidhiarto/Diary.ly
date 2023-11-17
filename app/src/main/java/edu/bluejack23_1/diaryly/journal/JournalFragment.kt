@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import edu.bluejack23_1.diaryly.R
 
 class JournalFragment : Fragment() {
@@ -41,9 +42,10 @@ class JournalFragment : Fragment() {
         var journalAdapter: JournalAdapter? = null // Initialize the adapter as nullable
 
         if (userId != null) {
-            db.collection("journals").whereEqualTo(
-                "userId", userId
-            ) // Only fetch journals associated with the current user
+            val query = db.collection("journals")
+                .whereEqualTo("userId", userId)
+                .orderBy("date", Query.Direction.ASCENDING)
+
                 .addSnapshotListener { snapshot, exception ->
                     if (exception != null) {
                         // Handle errors here
