@@ -16,7 +16,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var etEmail: EditText
     private lateinit var btnSendLink: Button
-    private lateinit var btnBack :ImageView
+    private lateinit var btnBack: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,41 +42,37 @@ class ForgotPasswordActivity : AppCompatActivity() {
             }
 
             // Check if the email is registered with Firebase.
-            auth.fetchSignInMethodsForEmail(email)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // The email is registered with Firebase.
-                        // Send a password reset email to the user.
-                        auth.sendPasswordResetEmail(email)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        this,
-                                        "A password reset email has been sent to your email address.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    finish()
-                                } else {
-                                    Log.e(
-                                        "ForgotPasswordActivity",
-                                        "Failed to send password reset email: ${task.exception}"
-                                    )
-                                    Toast.makeText(
-                                        this,
-                                        "Failed to send password reset email. Please try again later.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                    } else {
-                        // The email is not registered with Firebase.
-                        Toast.makeText(
-                            this,
-                            "The email address is not registered.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+            auth.fetchSignInMethodsForEmail(email).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // The email is registered with Firebase.
+                    // Send a password reset email to the user.
+                    auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "A password reset email has been sent to your email address.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            finish()
+                        } else {
+                            Log.e(
+                                "ForgotPasswordActivity",
+                                "Failed to send password reset email: ${task.exception}"
+                            )
+                            Toast.makeText(
+                                this,
+                                "Failed to send password reset email. Please try again later.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
+                } else {
+                    // The email is not registered with Firebase.
+                    Toast.makeText(
+                        this, "The email address is not registered.", Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
         }
     }
 }

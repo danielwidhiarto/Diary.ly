@@ -87,11 +87,15 @@ class JournalDetailActivity : AppCompatActivity() {
                             .document(journalId)
                             .delete()
                             .addOnSuccessListener {
-                                Toast.makeText(this, "Journal deleted successfully", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this, "Journal deleted successfully", Toast.LENGTH_SHORT
+                                ).show()
                                 finish() // Close the activity after deletion
                             }
                             .addOnFailureListener {
-                                Toast.makeText(this, "Failed to delete the journal", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this, "Failed to delete the journal", Toast.LENGTH_SHORT
+                                ).show()
                             }
                     }
                     dialog.dismiss()
@@ -136,6 +140,7 @@ class JournalDetailActivity : AppCompatActivity() {
         // Set click listeners for buttons, implement delete and update actions
         // Link the fetched data with TextViews and handle delete/update functionality
     }
+
     override fun onDestroy() {
         // Remove the snapshot listener when the activity is destroyed to avoid memory leaks
         snapshotListener.remove()

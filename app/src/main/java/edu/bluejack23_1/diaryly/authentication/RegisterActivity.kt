@@ -48,7 +48,11 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (username.length < 3 || username.length > 30) {
-                Toast.makeText(this, "Username must be between 3 and 30 characters.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Username must be between 3 and 30 characters.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -58,40 +62,59 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             // Create a new user account
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // User account created successfully
-                    Toast.makeText(this, "User account created successfully.", Toast.LENGTH_SHORT).show()
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // User account created successfully
+                        Toast.makeText(
+                            this,
+                            "User account created successfully.",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    // Add the user data to Firestore
-                    val user = hashMapOf(
-                        "username" to username,
-                        "email" to email
-                    )
-                    firestore.collection("users").document(firebaseAuth.currentUser!!.uid).set(user).addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // User data added successfully.
-                            Toast.makeText(this, "User data added successfully.", Toast.LENGTH_SHORT).show()
+                        val userId = firebaseAuth.currentUser!!.uid // Get the user's UID
 
-                            // Navigate to the login activity
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            // User data not added successfully.
-                            Toast.makeText(this, "User data not added successfully.", Toast.LENGTH_SHORT).show()
-                        }
+                        // Add the user data to Firestore along with the userId
+                        val user = hashMapOf(
+                            "userId" to userId, // Add the userId field
+                            "username" to username,
+                            "email" to email
+                        )
+
+                        firestore.collection("users").document(userId).set(user)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    // User data added successfully.
+                                    Toast.makeText(
+                                        this,
+                                        "User data added successfully.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    // Navigate to the login activity
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    // User data not added successfully.
+                                    Toast.makeText(
+                                        this,
+                                        "User data not added successfully.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    } else {
+                        // User account creation failed
+                        Toast.makeText(this, "User account creation failed.", Toast.LENGTH_SHORT)
+                            .show()
                     }
-                } else {
-                    // User account creation failed
-                    Toast.makeText(this, "User account creation failed.", Toast.LENGTH_SHORT).show()
                 }
-            }
-        }
 
-        loginHereTextView.setOnClickListener {
-            // Navigate to the login activity
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            loginHereTextView.setOnClickListener {
+                // Navigate to the login activity
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

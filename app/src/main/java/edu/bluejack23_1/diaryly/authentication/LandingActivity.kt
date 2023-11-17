@@ -27,15 +27,13 @@ class LandingActivity : AppCompatActivity() {
         // Check and request camera permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkAndRequestPermission(
-                Manifest.permission.CAMERA,
-                CAMERA_PERMISSION_REQUEST_CODE
+                Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE
             )
         }
 
         // Check and request notification permission
         checkAndRequestPermission(
-            Manifest.permission.VIBRATE,
-            NOTIFICATION_PERMISSION_REQUEST_CODE
+            Manifest.permission.VIBRATE, NOTIFICATION_PERMISSION_REQUEST_CODE
         )
 
         val loginButton = findViewById<Button>(R.id.loginButton)
@@ -59,15 +57,12 @@ class LandingActivity : AppCompatActivity() {
 
     private fun checkAndRequestPermission(permission: String, requestCode: Int) {
         if (ContextCompat.checkSelfPermission(
-                this,
-                permission
+                this, permission
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             // Permission is not granted, request it
             ActivityCompat.requestPermissions(
-                this,
-                arrayOf(permission),
-                requestCode
+                this, arrayOf(permission), requestCode
             )
         }
     }
@@ -75,9 +70,7 @@ class LandingActivity : AppCompatActivity() {
     // Handle permission request results
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 

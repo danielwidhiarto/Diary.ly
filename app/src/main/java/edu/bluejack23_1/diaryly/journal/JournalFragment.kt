@@ -1,4 +1,5 @@
 package edu.bluejack23_1.diaryly.journal
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +19,7 @@ class JournalFragment : Fragment() {
     private lateinit var journalAdapter: JournalAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_journal, container, false)
     }
@@ -42,8 +41,9 @@ class JournalFragment : Fragment() {
         var journalAdapter: JournalAdapter? = null // Initialize the adapter as nullable
 
         if (userId != null) {
-            db.collection("journals")
-                .whereEqualTo("userId", userId) // Only fetch journals associated with the current user
+            db.collection("journals").whereEqualTo(
+                "userId", userId
+            ) // Only fetch journals associated with the current user
                 .addSnapshotListener { snapshot, exception ->
                     if (exception != null) {
                         // Handle errors here

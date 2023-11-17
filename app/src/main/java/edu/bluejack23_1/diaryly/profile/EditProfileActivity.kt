@@ -106,8 +106,7 @@ class EditProfileActivity : AppCompatActivity() {
 
                     // Load and display the profile image using Picasso
                     if (!imageUrl.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(imageUrl)
+                        Picasso.get().load(imageUrl)
                             .placeholder(R.drawable.default_profile_image) // Placeholder image
                             .error(R.drawable.default_profile_image) // Error image (if loading fails)
                             .into(imageButton)
@@ -149,20 +148,20 @@ class EditProfileActivity : AppCompatActivity() {
             val userData = mutableMapOf("username" to username, "email" to email)
 
             if (selectedImageUri != null) {
-                val imageRef = storageReference.child("user_profile_images/$userId/profile_image.jpg")  // Set a path for the image in Storage
-                imageRef.putFile(selectedImageUri!!)
-                    .addOnSuccessListener { taskSnapshot ->
-                        // Image upload was successful
-                        // You can get the download URL for the image
-                        imageRef.downloadUrl.addOnSuccessListener { uri ->
-                            val imageUrl = uri.toString()
-                            // Now you can store imageUrl in Firestore, in the user's document
-                            userData["image_url"] = imageUrl
-                            userDocument.update(userData as Map<String, Any>).addOnSuccessListener {
-                                // Continue with updating email and password if needed
-                            }
+                val imageRef =
+                    storageReference.child("user_profile_images/$userId/profile_image.jpg")  // Set a path for the image in Storage
+                imageRef.putFile(selectedImageUri!!).addOnSuccessListener { taskSnapshot ->
+                    // Image upload was successful
+                    // You can get the download URL for the image
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val imageUrl = uri.toString()
+                        // Now you can store imageUrl in Firestore, in the user's document
+                        userData["image_url"] = imageUrl
+                        userDocument.update(userData as Map<String, Any>).addOnSuccessListener {
+                            // Continue with updating email and password if needed
                         }
                     }
+                }
             }
 
             userDocument.update(userData as Map<String, Any>).addOnSuccessListener {
@@ -171,18 +170,30 @@ class EditProfileActivity : AppCompatActivity() {
                 firebaseAuth.currentUser!!.updateEmail(email).addOnCompleteListener { emailTask ->
                     if (emailTask.isSuccessful) {
                         // Update the user's password in Firebase Auth
-                        firebaseAuth.currentUser!!.updatePassword(password).addOnCompleteListener { passwordTask ->
-                            if (passwordTask.isSuccessful) {
-                                Log.d("EditProfileActivity", "User email and password updated successfully.")
-                                // Show the toast here
-                                Toast.makeText(this, "Profile updated successfully.", Toast.LENGTH_SHORT).show()
-                                finish()
-                            } else {
-                                Log.d("EditProfileActivity", "User password update failed.", passwordTask.exception)
+                        firebaseAuth.currentUser!!.updatePassword(password)
+                            .addOnCompleteListener { passwordTask ->
+                                if (passwordTask.isSuccessful) {
+                                    Log.d(
+                                        "EditProfileActivity",
+                                        "User email and password updated successfully."
+                                    )
+                                    // Show the toast here
+                                    Toast.makeText(
+                                        this, "Profile updated successfully.", Toast.LENGTH_SHORT
+                                    ).show()
+                                    finish()
+                                } else {
+                                    Log.d(
+                                        "EditProfileActivity",
+                                        "User password update failed.",
+                                        passwordTask.exception
+                                    )
+                                }
                             }
-                        }
                     } else {
-                        Log.d("EditProfileActivity", "User email update failed.", emailTask.exception)
+                        Log.d(
+                            "EditProfileActivity", "User email update failed.", emailTask.exception
+                        )
                     }
                 }
 
@@ -206,8 +217,10 @@ class EditProfileActivity : AppCompatActivity() {
                             Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
                         }
                     }
+
                     "Choose from Gallery" -> {
-                        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        val galleryIntent =
+                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         galleryIntent.type = "image/*"
 
                         val mimeTypes = arrayOf("image/jpeg", "image/png")
@@ -215,6 +228,7 @@ class EditProfileActivity : AppCompatActivity() {
 
                         startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
                     }
+
                     "Cancel" -> {
                         dialog.dismiss()
                     }

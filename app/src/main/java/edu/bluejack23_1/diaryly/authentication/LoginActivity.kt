@@ -38,18 +38,17 @@ class LoginActivity : AppCompatActivity() {
             }
 
             // Sign in the user with Firebase
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // User signed in successfully
-                        Toast.makeText(this, "User signed in successfully!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        // User sign in failed
-                        Toast.makeText(this, "User sign in failed", Toast.LENGTH_SHORT).show()
-                    }
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // User signed in successfully
+                    Toast.makeText(this, "User signed in successfully!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // User sign in failed
+                    Toast.makeText(this, "User sign in failed", Toast.LENGTH_SHORT).show()
                 }
+            }
         }
 
         registerButton.setOnClickListener {

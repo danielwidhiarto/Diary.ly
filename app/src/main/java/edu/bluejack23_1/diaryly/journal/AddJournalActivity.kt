@@ -94,6 +94,7 @@ class AddJournalActivity : AppCompatActivity() {
                         // Similar to your EditProfileActivity
                         // Launch camera intent
                     }
+
                     "Choose from Gallery" -> {
                         val galleryIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -104,6 +105,7 @@ class AddJournalActivity : AppCompatActivity() {
 
                         startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
                     }
+
                     "Cancel" -> {
                         dialog.dismiss()
                     }
