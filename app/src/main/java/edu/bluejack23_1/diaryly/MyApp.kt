@@ -8,8 +8,10 @@ import android.os.Build
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        createNotificationChannel()
+    }
 
-        // Create the notification channel
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "your_channel_id"
             val channelName = "Reminder"

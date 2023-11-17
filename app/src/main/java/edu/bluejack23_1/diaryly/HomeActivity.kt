@@ -12,6 +12,7 @@ import edu.bluejack23_1.diaryly.moods.MoodsFragment
 import edu.bluejack23_1.diaryly.profile.ProfileFragment
 import edu.bluejack23_1.diaryly.search.SearchFragment
 import java.util.Calendar
+import java.util.TimeZone
 
 class HomeActivity : AppCompatActivity() {
 
@@ -53,14 +54,26 @@ class HomeActivity : AppCompatActivity() {
         val intent = Intent(this, MyReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 16) // 8 PM
-        calendar.set(Calendar.MINUTE, 33)
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
+
+//        //Test EveryMinute Show
+//        // Set the initial trigger time to the current time plus 1 minute
+//        calendar.add(Calendar.MINUTE, 1)
+//        // Schedule the alarm to trigger every minute
+//        alarmManager.setRepeating(
+//            AlarmManager.RTC_WAKEUP,
+//            calendar.timeInMillis,
+//            60 * 1000, // 60 seconds * 1000 milliseconds = 1 minute
+//            pendingIntent
+//        )
+
+        //Scheduled Every 8PM
+        // Set the trigger time to 8 PM
+        calendar.set(Calendar.HOUR_OF_DAY, 20) // 8 PM
+        calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
-//        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 1) // 2 minutes from now
 
-
-        // Schedule the alarm to trigger at 8 PM every day
+        // Schedule the alarm to trigger every day at 8 PM
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,

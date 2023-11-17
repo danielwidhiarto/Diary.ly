@@ -13,29 +13,32 @@ class MyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         showNotification(context)
     }
-
     private fun showNotification(context: Context) {
         val channelId = "your_channel_id"
         val notificationId = 1
 
+        // Create a NotificationCompat.Builder instance
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher) // Replace with your app logo
             .setContentTitle("Moods & Journal Reminder")
             .setContentText("Don't forget to input your journal and moods today!")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
+        // Get the NotificationManagerCompat
         val notificationManager = NotificationManagerCompat.from(context)
 
+        // Check for the VIBRATE permission
         if (ActivityCompat.checkSelfPermission(
                 context,
-                Manifest.permission.WAKE_LOCK
+                Manifest.permission.VIBRATE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            // Notify if permission is granted
             notificationManager.notify(notificationId, builder.build())
         } else {
-            // Handle the case where the necessary permission is not granted
-            // You may want to request permission here or handle it accordingly
+            // If permission is not granted, you might want to request it here
+            // and handle the result in the onRequestPermissionsResult callback
+            // or show a rationale for why the permission is needed.
         }
-
     }
 }
