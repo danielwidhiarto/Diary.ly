@@ -1,4 +1,5 @@
 package edu.bluejack23_1.diaryly.journal
+
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -29,7 +30,7 @@ class EditJournalActivity : AppCompatActivity() {
     private lateinit var rdbtnPrivate: RadioButton
     private lateinit var rdbtnPublic: RadioButton
     private lateinit var btnAddJournal: Button
-    private lateinit var backbtn : ImageView
+    private lateinit var backbtn: ImageView
 
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
@@ -130,12 +131,15 @@ class EditJournalActivity : AppCompatActivity() {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
                 }
+
                 "Choose from Gallery" -> {
                     // Open the gallery to choose an image
-                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    val galleryIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     galleryIntent.type = "image/*"
                     startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
                 }
+
                 "Cancel" -> {
                     dialog.dismiss()
                 }
@@ -203,10 +207,17 @@ class EditJournalActivity : AppCompatActivity() {
             val editedTitle = etJournalTitle.text.toString()
             val editedContent = etContent.text.toString()
             val editedDate = btnDateJournal.text.toString()
-            // You may implement logic for handling image upload here...
+            val editedVisibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
 
+            // You may implement logic for handling image upload here...
             // Upload the image (if selected) and get the image URL...
-            uploadImageAndSaveJournal(journalId, editedTitle, editedContent, editedDate)
+            uploadImageAndSaveJournal(
+                journalId,
+                editedTitle,
+                editedContent,
+                editedDate,
+                editedVisibility
+            )
         }
     }
 
@@ -214,7 +225,8 @@ class EditJournalActivity : AppCompatActivity() {
         journalId: String,
         editedTitle: String,
         editedContent: String,
-        editedDate: String
+        editedDate: String,
+        editedVisibility: String
     ) {
         // Check if an image is selected...
         if (selectedImageUri != null) {
@@ -227,12 +239,19 @@ class EditJournalActivity : AppCompatActivity() {
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         val imageUrl = uri.toString()
                         // Now you can update the journal data in Firestore, including the image URL...
-                        updateJournalDataWithImage(journalId, editedTitle, editedContent, editedDate, imageUrl)
+                        updateJournalDataWithImage(
+                            journalId,
+                            editedTitle,
+                            editedContent,
+                            editedDate,
+                            editedVisibility,
+                            imageUrl
+                        )
                     }
                 }
         } else {
             // No image selected, update the journal data without the image URL...
-            updateJournalData(journalId, editedTitle, editedContent, editedDate)
+            updateJournalData(journalId, editedTitle, editedContent, editedDate, editedVisibility)
         }
     }
 
@@ -240,14 +259,16 @@ class EditJournalActivity : AppCompatActivity() {
         journalId: String,
         editedTitle: String,
         editedContent: String,
-        editedDate: String
+        editedDate: String,
+        editedVisibility: String
     ) {
         // Update the data in Firestore without the image URL...
         firestore.collection("journals").document(journalId)
             .update(
                 "title", editedTitle,
                 "content", editedContent,
-                "date", editedDate
+                "date", editedDate,
+                "visibility", editedVisibility
             )
             .addOnSuccessListener {
                 // Handle the success, e.g., show a success message...
@@ -262,14 +283,15 @@ class EditJournalActivity : AppCompatActivity() {
         editedTitle: String,
         editedContent: String,
         editedDate: String,
+        editedVisibility: String,
         imageUrl: String
     ) {
-        // Update the data in Firestore with the image URL...
         firestore.collection("journals").document(journalId)
             .update(
                 "title", editedTitle,
                 "content", editedContent,
                 "date", editedDate,
+                "visibility", editedVisibility,
                 "image", imageUrl
             )
             .addOnSuccessListener {
@@ -279,5 +301,4 @@ class EditJournalActivity : AppCompatActivity() {
                 // Handle the failure, e.g., show an error message...
             }
     }
-
 }
