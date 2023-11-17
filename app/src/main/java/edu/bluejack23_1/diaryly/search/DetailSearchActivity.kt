@@ -46,10 +46,15 @@ class DetailSearchActivity : AppCompatActivity() {
         // Load the profile image using Picasso
         val userProfileImage = user.image_url
 
-        if (userProfileImage != null) {
+        if (userProfileImage != null && userProfileImage.isNotEmpty()) {
+            // Load the profile image using Picasso
             Picasso.get().load(userProfileImage).into(imgProfile)
         } else {
             // Handle the case where the profile image URL is not available
+            // For example, set a default image or hide the ImageView
+            imgProfile.setImageResource(R.drawable.default_profile_image)
+            // Alternatively, you can hide the ImageView if you don't want to show a default image
+            // imgProfile.visibility = View.GONE
         }
 
         btnBack.setOnClickListener {
