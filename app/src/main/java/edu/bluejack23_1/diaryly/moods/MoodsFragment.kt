@@ -43,56 +43,31 @@ class MoodsFragment : Fragment() {
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-        if (userId != null) {
-            db.collection("moods")
-                .whereEqualTo("userId", userId)
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val time = document.getString("time") ?: "No Title"
-                        val date = document.getString("date") ?: "No Date"
-                        val mood = document.getString("chosenMood") ?: "No Content"
-                        val notes = document.getString("notes") ?: "No Data"
-                        val id = document.id // Retrieve the document ID
+        // Set up the snapshot listener for real-time updates
+        val query = db.collection("moods")
+            .whereEqualTo("userId", userId)
+            .orderBy("date", Query.Direction.DESCENDING)
 
-                        val moodEntry = Moods(id, date, time, mood, notes) // Update to include the ID
-                        moodList.add(moodEntry)
-                    }
-
-                    moodsAdapter.updateData(moodList) // Update adapter data
-
-                }
-                .addOnFailureListener { exception ->
-                    // Handle errors here
-                }
-
-            // Set up the snapshot listener for real-time updates
-            val query = db.collection("moods")
-                .whereEqualTo("userId", userId)
-                .orderBy("date", Query.Direction.DESCENDING)
-
-            snapshotListener = query.addSnapshotListener { snapshots, exception ->
-                if (exception != null) {
-                    // Handle errors here
-                    return@addSnapshotListener
-                }
-
-                moodList.clear() // Clear the existing list
-
-                for (document in snapshots!!) {
-                    val time = document.getString("time") ?: "No Title"
-                    val date = document.getString("date") ?: "No Date"
-                    val mood = document.getString("chosenMood") ?: "No Content"
-                    val notes = document.getString("notes") ?: "No Data"
-                    val id = document.id // Retrieve the document ID
-
-                    val moodEntry = Moods(id, date, time, mood, notes) // Update to include the ID
-                    moodList.add(moodEntry)
-                }
-
-                moodsAdapter.updateData(moodList) // Update adapter data
+        snapshotListener = query.addSnapshotListener { snapshots, exception ->
+            if (exception != null) {
+                // Handle errors here
+                return@addSnapshotListener
             }
+
+            moodList.clear() // Clear the existing list
+
+            for (document in snapshots!!) {
+                val time = document.getString("time") ?: "No Title"
+                val date = document.getString("date") ?: "No Date"
+                val mood = document.getString("chosenMood") ?: "No Content"
+                val notes = document.getString("notes") ?: "No Data"
+                val id = document.id // Retrieve the document ID
+
+                val moodEntry = Moods(id, date, time, mood, notes) // Update to include the ID
+                moodList.add(moodEntry)
+            }
+
+            moodsAdapter.updateData(moodList) // Update adapter data
         }
 
         // Set an OnClickListener for the FAB
