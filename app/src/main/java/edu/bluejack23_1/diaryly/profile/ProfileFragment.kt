@@ -13,7 +13,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.squareup.picasso.Picasso
 import edu.bluejack23_1.diaryly.R
 import edu.bluejack23_1.diaryly.authentication.LoginActivity
@@ -28,6 +30,10 @@ class ProfileFragment : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private lateinit var documentRef: DocumentReference
+    private lateinit var snapshotListener: ListenerRegistration
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +52,7 @@ class ProfileFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         fetchUserDataAndCountJournals()
+        setUpSnapshotListener()
 
         btnEditProfile.setOnClickListener {
             val intent = Intent(context, EditProfileActivity::class.java)
@@ -116,8 +123,10 @@ class ProfileFragment : Fragment() {
         // Get the current user's ID
         val userId = firebaseAuth.currentUser!!.uid
 
+        documentRef = firestore.collection("users").document(userId)
+
         // Fetch the user's image URL from Firestore
-        firestore.collection("users").document(userId).get().addOnCompleteListener { userTask ->
+        documentRef.get().addOnCompleteListener { userTask ->
             if (userTask.isSuccessful) {
                 val userDocument = userTask.result
                 if (userDocument.exists()) {
@@ -158,6 +167,43 @@ class ProfileFragment : Fragment() {
                 Log.d("ProfileFragment", "Error fetching user data", userTask.exception)
             }
         }
+    }
+
+    private fun setUpSnapshotListener() {
+        snapshotListener = documentRef.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
+                // Handle errors here
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                // Get updated data from the snapshot
+                val username = snapshot.getString("username")
+                tvCurrentUsername.text = username
+
+                // Get the user's image URL from Firestore
+                val imageUrl = snapshot.getString("image_url")
+
+                // Load and display the profile image using Picasso
+                if (!imageUrl.isNullOrEmpty()) {
+                    Picasso.get()
+                        .load(imageUrl)
+                        .placeholder(R.drawable.default_profile_image)
+                        .error(R.drawable.default_profile_image)
+                        .into(imgProfile)
+                } else {
+                    imgProfile.setImageResource(R.drawable.default_profile_image)
+                }
+            } else {
+                Log.d("ProfileFragment", "No such document")
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        // Remove the snapshot listener when the fragment is destroyed to avoid memory leaks
+        snapshotListener.remove()
+        super.onDestroyView()
     }
 }
 
