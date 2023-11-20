@@ -19,7 +19,7 @@ class MyApp : Application() {
             val channel = NotificationChannel(channelId, channelName, importance)
 
             val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+            notificationManager?.createNotificationChannel(channel)
         }
     }
 }

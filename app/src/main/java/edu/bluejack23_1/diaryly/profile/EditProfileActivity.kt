@@ -15,11 +15,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import edu.bluejack23_1.diaryly.R
+import edu.bluejack23_1.diaryly.authentication.LoginActivity
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -170,30 +172,24 @@ class EditProfileActivity : AppCompatActivity() {
                 firebaseAuth.currentUser!!.updateEmail(email).addOnCompleteListener { emailTask ->
                     if (emailTask.isSuccessful) {
                         // Update the user's password in Firebase Auth
-                        firebaseAuth.currentUser!!.updatePassword(password)
-                            .addOnCompleteListener { passwordTask ->
-                                if (passwordTask.isSuccessful) {
-                                    Log.d(
-                                        "EditProfileActivity",
-                                        "User email and password updated successfully."
-                                    )
-                                    // Show the toast here
-                                    Toast.makeText(
-                                        this, "Profile updated successfully.", Toast.LENGTH_SHORT
-                                    ).show()
-                                    finish()
-                                } else {
-                                    Log.d(
-                                        "EditProfileActivity",
-                                        "User password update failed.",
-                                        passwordTask.exception
-                                    )
+                        try {
+                            firebaseAuth.currentUser!!.updatePassword(password)
+                                .addOnCompleteListener { passwordTask ->
+                                    if (passwordTask.isSuccessful) {
+                                        Log.d("EditProfileActivity", "User email and password updated successfully.")
+                                        // Show the toast here
+                                        Toast.makeText(this, "Profile updated successfully.", Toast.LENGTH_SHORT).show()
+                                        finish()
+                                    } else {
+                                        handlePasswordUpdateFailure(passwordTask.exception)
+                                    }
                                 }
-                            }
+                        } catch (e: FirebaseAuthRecentLoginRequiredException) {
+                            // Handle recent login required exception
+                            redirectToSignIn()
+                        }
                     } else {
-                        Log.d(
-                            "EditProfileActivity", "User email update failed.", emailTask.exception
-                        )
+                        Log.d("EditProfileActivity", "User email update failed.", emailTask.exception)
                     }
                 }
 
@@ -237,5 +233,22 @@ class EditProfileActivity : AppCompatActivity() {
             builder.show()
         }
 
+    }
+
+    // Outside the onCreate method
+    private fun handlePasswordUpdateFailure(exception: Exception?) {
+        if (exception is FirebaseAuthRecentLoginRequiredException) {
+            // Handle recent login required exception
+            redirectToSignIn()
+        } else {
+            Log.d("EditProfileActivity", "User password update failed.", exception)
+        }
+    }
+
+    private fun redirectToSignIn() {
+        // Redirect the user to sign in again
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

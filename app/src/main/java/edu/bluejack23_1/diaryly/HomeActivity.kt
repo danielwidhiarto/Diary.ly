@@ -22,6 +22,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        scheduleAlarms()
+
         bottomNavigationView = findViewById(R.id.bottomNavbar)
 
         bottomNavigationView.setOnItemSelectedListener { menuitem ->
@@ -50,30 +52,32 @@ class HomeActivity : AppCompatActivity() {
         // Replace the fragment with the moods fragment on startup.
         replaceFragment(MoodsFragment())
 
+    }
+
+    private fun scheduleAlarms() {
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, MyReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
 
-//        //Test EveryMinute Show
-//        // Set the initial trigger time to the current time plus 1 minute
+//        // Test Every Minute Show
 //        calendar.add(Calendar.MINUTE, 1)
-//        // Schedule the alarm to trigger every minute
 //        alarmManager.setRepeating(
 //            AlarmManager.RTC_WAKEUP,
 //            calendar.timeInMillis,
-//            60 * 1000, // 60 seconds * 1000 milliseconds = 1 minute
+//            60 * 1000, // 1 minute
 //            pendingIntent
 //        )
 
-        //Scheduled Every 8PM
-        // Set the trigger time to 8 PM
         calendar.set(Calendar.HOUR_OF_DAY, 20) // 8 PM
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
-
-        // Schedule the alarm to trigger every day at 8 PM
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
@@ -82,6 +86,7 @@ class HomeActivity : AppCompatActivity() {
         )
 
     }
+
 
 
     private fun replaceFragment(fragment: Fragment) {
