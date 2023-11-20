@@ -68,10 +68,14 @@ class EditMoodsActivity : AppCompatActivity() {
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(this, { view, year, month, dayOfMonth ->
+            val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 // Update the EditText with the selected date
-                val selectedDate = SimpleDateFormat("dd-MM-yyyy").format(calendar.time)
-                dateBtn.setText(selectedDate)
+                val selectedDate = SimpleDateFormat("dd-MM-yyyy").format(
+                    Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth)
+                    }.time
+                )
+                dateBtn.text = selectedDate
             }, year, month, day)
 
             datePickerDialog.show()

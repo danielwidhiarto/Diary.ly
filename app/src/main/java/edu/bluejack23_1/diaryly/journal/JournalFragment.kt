@@ -44,7 +44,7 @@ class JournalFragment : Fragment() {
         if (userId != null) {
             val query = db.collection("journals")
                 .whereEqualTo("userId", userId)
-                .orderBy("date", Query.Direction.ASCENDING)
+                .orderBy("date", Query.Direction.DESCENDING)
 
                 .addSnapshotListener { snapshot, exception ->
                     if (exception != null) {
