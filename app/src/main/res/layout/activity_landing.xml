@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,53 +8,57 @@
     android:background="#FFF2D8"
     tools:context=".authentication.LandingActivity">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="159dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginTop="352dp"
         android:text="@string/app_name"
-        android:textColor="#113946"
-        android:textSize="60sp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="110dp" />
+        android:textColor="#113946"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="282dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="191dp"
-        android:background="#BCA37F"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="336dp"
         android:text="@string/Register"
-        android:textColor="#113946"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="282dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="28dp"
-        android:background="#BCA37F"
-        android:backgroundTint="#EC1919"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/Login"
-        android:textColor="#113946"
-        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
