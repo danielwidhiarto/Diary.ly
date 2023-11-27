@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -114,8 +115,6 @@ class EditJournalActivity : AppCompatActivity() {
         btnAddJournal.setOnClickListener {
             // Call a function to update the journal data
             updateJournal(journalId)
-            finish()
-
         }
     }
 
@@ -204,9 +203,17 @@ class EditJournalActivity : AppCompatActivity() {
         // Check if the journalId is not null...
         if (journalId != null) {
             // Retrieve the edited data...
-            val editedTitle = etJournalTitle.text.toString()
-            val editedContent = etContent.text.toString()
+            val editedTitle = etJournalTitle.text.toString().trim()
+            val editedContent = etContent.text.toString().trim()
             val editedDate = btnDateJournal.text.toString()
+
+            // Add validation for empty fields
+            if (editedTitle.isEmpty() || editedContent.isEmpty() || editedDate.isEmpty()) {
+                // Show a Toast message indicating that all fields are required
+                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             val editedVisibility = if (rdbtnPrivate.isChecked) "Private" else "Public"
 
             // You may implement logic for handling image upload here...
@@ -218,8 +225,10 @@ class EditJournalActivity : AppCompatActivity() {
                 editedDate,
                 editedVisibility
             )
+            finish()
         }
     }
+
 
     private fun uploadImageAndSaveJournal(
         journalId: String,
