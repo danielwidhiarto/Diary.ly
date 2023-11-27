@@ -20,12 +20,8 @@
             android:layout_height="35dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
             android:contentDescription="@string/emoji_image"
             android:src="@drawable/emoji_neutral"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/moods"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,35 +29,32 @@
             android:id="@+id/moodsDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="128dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginEnd="112dp"
             android:gravity="center"
             android:text="@string/JournalDate"
             android:textSize="10sp"
             app:flow_horizontalAlign="center"
             app:flow_verticalAlign="center"
-            app:layout_constraintBottom_toTopOf="@+id/moods"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.327" />
 
         <TextView
             android:id="@+id/moods"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="113dp"
             android:gravity="center"
             android:text="@string/neutral"
             android:textSize="18sp"
             android:textStyle="bold"
             app:flow_horizontalAlign="center"
             app:flow_verticalAlign="center"
-            app:layout_constraintBottom_toTopOf="@+id/moodsNotes"
-            app:layout_constraintEnd_toStartOf="@+id/moodsTime"
+            app:layout_constraintEnd_toStartOf="@+id/moodsDate"
+            app:layout_constraintHorizontal_bias="0.115"
             app:layout_constraintStart_toEndOf="@+id/imgEmoji"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,24 +62,23 @@
             android:id="@+id/moodsTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginStart="91dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="@string/moodstime"
             android:textSize="10sp"
             app:flow_horizontalAlign="center"
             app:flow_verticalAlign="center"
-            app:layout_constraintBottom_toTopOf="@+id/moodsNotes"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvEdit"
-            app:layout_constraintStart_toEndOf="@+id/moods"
-            app:layout_constraintTop_toBottomOf="@+id/moodsDate"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toEndOf="@+id/moodsNotes"
+            app:layout_constraintTop_toBottomOf="@+id/moodsDate" />
 
         <TextView
             android:id="@+id/tvEdit"
-            android:layout_width="48sp"
+            android:layout_width="101dp"
             android:layout_height="48dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="5dp"
@@ -103,12 +95,11 @@
 
         <TextView
             android:id="@+id/moodsNotes"
-            android:layout_width="101dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="61dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="60dp"
             android:layout_marginEnd="109dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="16dp"
             android:gravity="left"
             android:text="@string/happy"
             android:textSize="10sp"
@@ -116,8 +107,8 @@
             app:flow_verticalAlign="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvEdit"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moods" />
+            app:layout_constraintHorizontal_bias="0.111"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

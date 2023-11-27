@@ -133,11 +133,16 @@
         app:layout_constraintTop_toBottomOf="@+id/btnImage" />
 
     <RadioGroup
+        android:id="@+id/radioGroup2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="23dp"
+        android:layout_marginEnd="59dp"
+        android:layout_marginBottom="16dp"
         android:scrollbarSize="100sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditJournal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvVisibility">
 
@@ -163,11 +168,15 @@
         android:id="@+id/btnEditJournal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="140dp"
         android:layout_marginBottom="88dp"
         android:text="@string/edit_journal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

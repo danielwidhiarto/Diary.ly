@@ -12,8 +12,10 @@
         android:id="@+id/backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_button" />
@@ -28,6 +30,7 @@
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -132,11 +135,14 @@
         app:layout_constraintTop_toBottomOf="@+id/btnImage" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="23dp"
+        android:layout_marginEnd="59dp"
         android:scrollbarSize="100sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvVisibility">
 
@@ -162,10 +168,14 @@
         android:id="@+id/btnAddJournal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="140dp"
         android:layout_marginBottom="88dp"
         android:text="@string/add_journal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

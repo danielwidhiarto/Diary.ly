@@ -7,17 +7,19 @@
     android:background="#FFF2D8"
     tools:context=".profile.EditProfileActivity">
 
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="55dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginEnd="136dp"
         android:text="@string/EditProfileTitle"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <EditText
         android:id="@+id/etUsername"
@@ -141,7 +143,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="28dp"
         android:text="@string/Update"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -153,6 +155,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="56dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_button" />
