@@ -27,6 +27,7 @@ class ProfileFragment : Fragment() {
     private lateinit var imgProfile: ImageButton
     private lateinit var btnEditProfile: Button
     private lateinit var btnDeleteAccount: Button
+    private  lateinit var btnLogout : Button
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
@@ -47,6 +48,7 @@ class ProfileFragment : Fragment() {
         imgProfile = view.findViewById(R.id.imgProfile)
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnDeleteAccount = view.findViewById(R.id.btnDeleteAccount)
+        btnLogout = view.findViewById(R.id.btnLogout)
 
         firestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
@@ -57,6 +59,10 @@ class ProfileFragment : Fragment() {
         btnEditProfile.setOnClickListener {
             val intent = Intent(context, EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        btnLogout.setOnClickListener {
+            showLogoutConfirmationDialog()
         }
 
         btnDeleteAccount.setOnClickListener {
@@ -199,6 +205,24 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+    private fun showLogoutConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Logout")
+        builder.setMessage("Are you sure you want to log out?")
+        builder.setPositiveButton("Yes") { _, _ ->
+            // Log out the user
+            FirebaseAuth.getInstance().signOut()
+
+            // Navigate to the login activity.
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
+            activity?.finish() // Optional: Finish the current activity to prevent going back to the profile screen
+        }
+        builder.setNegativeButton("No", null)
+        builder.show()
+    }
+
 
     override fun onDestroyView() {
         // Remove the snapshot listener when the fragment is destroyed to avoid memory leaks

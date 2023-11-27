@@ -247,6 +247,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun redirectToSignIn() {
         // Redirect the user to sign in again
+        Toast.makeText(this, "Your session has ended, please login again!", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
