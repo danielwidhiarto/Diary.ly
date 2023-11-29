@@ -37,7 +37,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
 
             if (email.isEmpty()) {
-                Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.btnSendLink, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -50,7 +50,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(
                                 this,
-                                "A password reset email has been sent to your email address.",
+                                R.string.resetPassSent,
                                 Toast.LENGTH_SHORT
                             ).show()
                             finish()
@@ -60,8 +60,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                 "Failed to send password reset email: ${task.exception}"
                             )
                             Toast.makeText(
-                                this,
-                                "Failed to send password reset email. Please try again later.",
+                                this, R.string.resetPassFail,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -69,7 +68,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 } else {
                     // The email is not registered with Firebase.
                     Toast.makeText(
-                        this, "The email address is not registered.", Toast.LENGTH_SHORT
+                        this, R.string.emailNotRegistered, Toast.LENGTH_SHORT
                     ).show()
                 }
             }

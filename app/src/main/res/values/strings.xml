@@ -68,4 +68,21 @@
     <string name="happy">happy</string>
     <string name="logout">Logout</string>
 
+    <string name ="btnSendLink">"Please enter your email address.</string>
+    <string name ="resetPassSent">A password reset email has been sent to your email address.</string>
+    <string name ="resetPassFail">Failed to send password reset email. Please try again later.</string>
+    <string name ="emailNotRegistered">The email address is not registered..</string>
+    <string name ="fillAllTheFields">Please fill in all the fields.</string>
+    <string name ="signInSuccess">User signed in successfully!.</string>
+    <string name ="signInFailed">User signed in failed!.</string>
+    <string name ="usernameNoSpace">Username must not contain spaces.</string>
+    <string name ="usernameLengthValidation">Username must be between 3 and 30 characters..</string>
+    <string name ="passwordNotMatch">Passwords do not match.</string>
+    <string name ="accountCreateSuccess">User account created successfully .</string>
+    <string name ="accountCreateFailed">User account creation failed .</string>
+
+
+
+
+
 </resources>

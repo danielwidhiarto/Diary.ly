@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
             // Validate the input fields
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.fillAllTheFields, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -41,12 +41,12 @@ class LoginActivity : AppCompatActivity() {
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // User signed in successfully
-                    Toast.makeText(this, "User signed in successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.signInSuccess, Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                 } else {
                     // User sign in failed
-                    Toast.makeText(this, "User sign in failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.signInFailed, Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -43,25 +43,25 @@ class RegisterActivity : AppCompatActivity() {
 
             // Validate the input fields
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.fillAllTheFields, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (!Pattern.matches("^[a-zA-Z0-9_]+$", username)) {
-                Toast.makeText(this, "Username must not contain spaces.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.usernameNoSpace, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (username.length < 3 || username.length > 30) {
                 Toast.makeText(
                     this,
-                    "Username must be between 3 and 30 characters.",
+                    R.string.usernameLengthValidation,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
 
             if (password != confirmPassword) {
-                Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.passwordNotMatch, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -69,16 +69,7 @@ class RegisterActivity : AppCompatActivity() {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // User account created successfully
-                        Toast.makeText(
-                            this,
-                            "User account created successfully.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        val userId = firebaseAuth.currentUser!!.uid // Get the user's UID
-
-                        // Add the user data to Firestore along with the userId and default image URL
+                        val userId = firebaseAuth.currentUser!!.uid
                         val user = hashMapOf(
                             "userId" to userId,
                             "username" to username,
@@ -91,24 +82,16 @@ class RegisterActivity : AppCompatActivity() {
                                     // User data added successfully.
                                     Toast.makeText(
                                         this,
-                                        "User data added successfully.",
+                                        R.string.accountCreateSuccess,
                                         Toast.LENGTH_SHORT
                                     ).show()
-
-                                    // Upload the default profile image to Firebase Storage
                                     uploadDefaultProfileImage(userId)
                                 } else {
-                                    // User data not added successfully.
-                                    Toast.makeText(
-                                        this,
-                                        "User data not added successfully.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 }
                             }
                     } else {
                         // User account creation failed
-                        Toast.makeText(this, "User account creation failed.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, R.string.accountCreateFailed, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -152,31 +135,15 @@ class RegisterActivity : AppCompatActivity() {
                     firestore.collection("users").document(userId)
                         .update("profileImage", uri.toString())
                         .addOnSuccessListener {
-                            // Profile image URL saved successfully
-                            Toast.makeText(
-                                this,
-                                "Default profile image uploaded.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
                             // Navigate to the login activity
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .addOnFailureListener { exception ->
-                            // Handle the failure to save the profile image URL
-                            Toast.makeText(
-                                this,
-                                "Failed to save profile image URL.",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                 }
             }
             .addOnFailureListener { exception ->
-                // Handle the failure to upload the default image
-                Toast.makeText(this, "Failed to upload default profile image.", Toast.LENGTH_SHORT)
-                    .show()
             }
     }
 }
