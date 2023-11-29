@@ -77,9 +77,9 @@ class JournalDetailActivity : AppCompatActivity() {
 
         btnDelete.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Delete Journal")
-                .setMessage("Are you sure you want to delete this journal?")
-                .setPositiveButton("Delete") { dialog, _ ->
+                .setTitle(R.string.deleteJournalTitle)
+                .setMessage(R.string.deleteJournal)
+                .setPositiveButton(R.string.YesConfirm) { dialog, _ ->
                     val db = FirebaseFirestore.getInstance()
 
                     if (journalId != null) {
@@ -100,7 +100,7 @@ class JournalDetailActivity : AppCompatActivity() {
                     }
                     dialog.dismiss()
                 }
-                .setNegativeButton("Cancel") { dialog, _ ->
+                .setNegativeButton(R.string.NoConfirm) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()

@@ -119,19 +119,19 @@ class EditJournalActivity : AppCompatActivity() {
     }
 
     private fun showImagePickerDialog() {
-        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+        val options = arrayOf("Take Photo", "Choose Gallery", "Cancel")
 
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Choose Action")
+        builder.setTitle(R.string.chooseAction)
         builder.setItems(options) { dialog, item ->
             when (options[item]) {
-                "Take Photo" -> {
+                R.string.takePhoto.toString() -> {
                     // Open the camera to capture an image
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
                 }
 
-                "Choose from Gallery" -> {
+                R.string.takeGallery.toString() -> {
                     // Open the gallery to choose an image
                     val galleryIntent =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -139,7 +139,7 @@ class EditJournalActivity : AppCompatActivity() {
                     startActivityForResult(galleryIntent, IMAGE_PICKER_REQUEST_CODE)
                 }
 
-                "Cancel" -> {
+                R.string.NoConfirm.toString() -> {
                     dialog.dismiss()
                 }
             }

@@ -102,6 +102,25 @@
     <string name="notifHeader">Pengingat Moods and Journal</string>
     <string name="notifContent">Jangan lupa untuk memasukkan jurnal dan suasana hati Anda hari ini!</string>
 
+    <string name="logoutConfirm">Apakah anda yakin ingin keluar dari akun ?</string>
+
+    <string name="YesConfirm">Iya</string>
+    <string name="NoConfirm">Tidak</string>
+
+    <string name="deleteJournalTitle">Hapus journal?</string>
+
+    <string name="deleteMood">Apakah anda yakin ingin menghapus suasana hati ini?</string>
+    <string name="deleteJournal">Apakah anda yakin ingin menghapus journal ini?</string>
+
+    <string name="takePhoto">Ambil Photo?</string>
+    <string name="takeGallery">Pilih dari Gallery?</string>
+
+    <string name="cancel">Batal</string>
+
+    <string name="chooseAction">
+         Pilih Aksi
+    </string>
+
 
 
 </resources>

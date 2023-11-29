@@ -113,12 +113,12 @@ class EditMoodsActivity : AppCompatActivity() {
 
             if (moodId != null) {
                 val alertDialogBuilder = AlertDialog.Builder(this)
-                alertDialogBuilder.setMessage("Are you sure you want to delete this mood entry?")
-                alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                alertDialogBuilder.setMessage(R.string.deleteMood)
+                alertDialogBuilder.setPositiveButton(R.string.YesConfirm) { dialog, which ->
                     // Perform the delete operation
                     deleteMoodFromFirestore(moodId)
                 }
-                alertDialogBuilder.setNegativeButton("No") { dialog, which -> dialog.dismiss() }
+                alertDialogBuilder.setNegativeButton(R.string.NoConfirm) { dialog, which -> dialog.dismiss() }
                 alertDialogBuilder.create().show()
             } else{
 
