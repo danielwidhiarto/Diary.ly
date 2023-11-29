@@ -88,13 +88,13 @@ class JournalDetailActivity : AppCompatActivity() {
                             .delete()
                             .addOnSuccessListener {
                                 Toast.makeText(
-                                    this, "Journal deleted successfully", Toast.LENGTH_SHORT
+                                    this, R.string.journalDeleteSuccess, Toast.LENGTH_SHORT
                                 ).show()
                                 finish() // Close the activity after deletion
                             }
                             .addOnFailureListener {
                                 Toast.makeText(
-                                    this, "Failed to delete the journal", Toast.LENGTH_SHORT
+                                    this, R.string.journalDeleteFailed, Toast.LENGTH_SHORT
                                 ).show()
                             }
                     }

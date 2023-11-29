@@ -126,7 +126,7 @@ class AddJournalActivity : AppCompatActivity() {
 
             // Create a Journal object or a data class based on your requirements
             if (title.isEmpty() || content.isEmpty() || date.isEmpty()) {
-                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT)
+                Toast.makeText(this, R.string.fillAllTheFields, Toast.LENGTH_SHORT)
                     .show()
             } else {
 // Check if an image is selected
@@ -212,13 +212,13 @@ class AddJournalActivity : AppCompatActivity() {
             collectionRef.add(journalData)
                 .addOnSuccessListener { documentReference ->
                     // Document was added successfully
-                    Toast.makeText(this, "Journal added to Firestore", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.journalAddSuccess,Toast.LENGTH_SHORT).show()
 
                     finish()
                 }
                 .addOnFailureListener { e ->
                     // Handle any errors here
-                    Toast.makeText(this, "Error adding journal: $e", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.journalAddFailed, Toast.LENGTH_SHORT).show()
                 }
         }
     }

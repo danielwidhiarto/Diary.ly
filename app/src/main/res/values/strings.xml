@@ -78,10 +78,13 @@
     <string name ="usernameNoSpace">Username must not contain spaces.</string>
     <string name ="usernameLengthValidation">Username must be between 3 and 30 characters..</string>
     <string name ="passwordNotMatch">Passwords do not match.</string>
-    <string name ="accountCreateSuccess">User account created successfully .</string>
-    <string name ="accountCreateFailed">User account creation failed .</string>
+    <string name ="accountCreateSuccess">User account created successfully.</string>
+    <string name ="accountCreateFailed">User account creation failed.</string>
 
-
+    <string name ="journalAddSuccess">Journal added to Successfully.</string>
+    <string name ="journalAddFailed">Error when adding journal.</string>
+    <string name ="journalDeleteSuccess">Journal Deleted Successfully!.</string>
+    <string name ="journalDeleteFailed">Failed to delete journal!.</string>
 
 
 

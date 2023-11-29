@@ -209,8 +209,7 @@ class EditJournalActivity : AppCompatActivity() {
 
             // Add validation for empty fields
             if (editedTitle.isEmpty() || editedContent.isEmpty() || editedDate.isEmpty()) {
-                // Show a Toast message indicating that all fields are required
-                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.fillAllTheFields, Toast.LENGTH_SHORT).show()
                 return
             }
 
