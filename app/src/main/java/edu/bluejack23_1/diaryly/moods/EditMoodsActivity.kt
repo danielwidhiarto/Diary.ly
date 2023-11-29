@@ -120,15 +120,15 @@ class EditMoodsActivity : AppCompatActivity() {
                 }
                 alertDialogBuilder.setNegativeButton("No") { dialog, which -> dialog.dismiss() }
                 alertDialogBuilder.create().show()
-            } else {
-                Toast.makeText(this, "No mood selected for deletion", Toast.LENGTH_SHORT).show()
+            } else{
+
             }
         }
 
         saveButton.setOnClickListener {
 
             if (chosenMoodLevel == "Chosen Mood") {
-                Toast.makeText(this, "Please choose a mood before saving", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.chooseAMood, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -178,11 +178,11 @@ class EditMoodsActivity : AppCompatActivity() {
 
                 documentRef.set(moodData)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Mood updated in Firestore", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.moodsUpdateSuccess, Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error updating mood: $e", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.moodsUpdateFailed, Toast.LENGTH_SHORT).show()
                     }
             }
         }
@@ -208,11 +208,11 @@ class EditMoodsActivity : AppCompatActivity() {
 
         docRef.delete()
             .addOnSuccessListener {
-                Toast.makeText(this, "Mood deleted successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.moodsDeleteSuccess, Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Error deleting mood: $e", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.moodsDeleteFailed, Toast.LENGTH_SHORT).show()
             }
     }
 

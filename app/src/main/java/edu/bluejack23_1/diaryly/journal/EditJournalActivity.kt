@@ -224,6 +224,8 @@ class EditJournalActivity : AppCompatActivity() {
                 editedDate,
                 editedVisibility
             )
+
+            Toast.makeText(this, R.string.journalUpdateSuccess, Toast.LENGTH_SHORT).show()
             finish()
         }
     }

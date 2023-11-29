@@ -83,8 +83,17 @@
 
     <string name ="journalAddSuccess">Journal added to Successfully.</string>
     <string name ="journalAddFailed">Error when adding journal.</string>
+    <string name ="journalUpdateSuccess">Journal updated to Successfully.</string>
     <string name ="journalDeleteSuccess">Journal Deleted Successfully!.</string>
     <string name ="journalDeleteFailed">Failed to delete journal!.</string>
+
+    <string name ="chooseAMood">Please choose a mood before saving!</string>
+    <string name ="moodsAddSuccess">Moods added to Successfully.</string>
+    <string name ="moodsAddFailed">Error when adding moods.</string>
+    <string name ="moodsUpdateSuccess">Moods updated to Successfully.</string>
+    <string name ="moodsUpdateFailed">Error when updating moods.</string>
+    <string name ="moodsDeleteSuccess">Moods Deleted Successfully!.</string>
+    <string name ="moodsDeleteFailed">Failed to delete moods!.</string>
 
 
 

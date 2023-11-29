@@ -60,7 +60,7 @@ class AddMoodsActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             if (chosenMoodLevel == "Chosen Mood") {
-                Toast.makeText(this, "Please choose a mood before saving", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.chooseAMood, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -111,12 +111,12 @@ class AddMoodsActivity : AppCompatActivity() {
             collectionRef.add(moodData)
                 .addOnSuccessListener { documentReference ->
                     // Document was added successfully
-                    Toast.makeText(this, "Moods added to Firestore", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.moodsAddSuccess, Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 .addOnFailureListener { e ->
                     // Handle any errors here
-                    Toast.makeText(this, "Error adding journal: $e", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.moodsAddFailed, Toast.LENGTH_SHORT).show()
                 }
         }
     }
