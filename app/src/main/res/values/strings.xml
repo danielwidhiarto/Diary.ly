@@ -95,6 +95,10 @@
     <string name ="moodsDeleteSuccess">Moods Deleted Successfully!.</string>
     <string name ="moodsDeleteFailed">Failed to delete moods!.</string>
 
+    <string name ="profileUpdatedSuccess">Profile Updated Successfully!.</string>
+    <string name ="noCameraApp">No camera app found!.</string>
+    <string name="loginAgain">Your session has ended, please login again!</string>
+
 
 
 </resources>

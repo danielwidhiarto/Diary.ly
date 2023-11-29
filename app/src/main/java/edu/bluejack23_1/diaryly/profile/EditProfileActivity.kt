@@ -136,12 +136,12 @@ class EditProfileActivity : AppCompatActivity() {
             val confirmPassword = etConfirmPassword.text.toString()
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.fillAllTheFields, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (password != confirmPassword) {
-                Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.passwordNotMatch, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -176,9 +176,8 @@ class EditProfileActivity : AppCompatActivity() {
                             firebaseAuth.currentUser!!.updatePassword(password)
                                 .addOnCompleteListener { passwordTask ->
                                     if (passwordTask.isSuccessful) {
-                                        Log.d("EditProfileActivity", "User email and password updated successfully.")
                                         // Show the toast here
-                                        Toast.makeText(this, "Profile updated successfully.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, R.string.profileUpdatedSuccess, Toast.LENGTH_SHORT).show()
                                         finish()
                                     } else {
                                         handlePasswordUpdateFailure(passwordTask.exception)
@@ -188,13 +187,10 @@ class EditProfileActivity : AppCompatActivity() {
                             // Handle recent login required exception
                             redirectToSignIn()
                         }
-                    } else {
-                        Log.d("EditProfileActivity", "User email update failed.", emailTask.exception)
-                    }
+                    } else { }
                 }
 
             }.addOnFailureListener { e ->
-                Log.d("EditProfileActivity", "User data update failed.", e)
             }
         }
 
@@ -210,7 +206,7 @@ class EditProfileActivity : AppCompatActivity() {
                         if (cameraIntent.resolveActivity(packageManager) != null) {
                             startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
                         } else {
-                            Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.noCameraApp, Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -247,7 +243,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun redirectToSignIn() {
         // Redirect the user to sign in again
-        Toast.makeText(this, "Your session has ended, please login again!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.loginAgain, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
