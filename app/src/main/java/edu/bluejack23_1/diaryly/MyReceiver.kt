@@ -5,26 +5,23 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
 class MyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("MyReceiver", "Alarm received, showing notification.")
         showNotification(context)
     }
     private fun showNotification(context: Context) {
-        Log.d("MyReceiver", "Building and showing notification.")
         val channelId = "your_channel_id"
         val notificationId = 1
 
         // Create a NotificationCompat.Builder instance
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher) // Replace with your app logo
-            .setContentTitle("Moods & Journal Reminder")
-            .setContentText("Don't forget to input your journal and moods today!")
+            .setContentTitle(R.string.notifHeader.toString())
+            .setContentText(R.string.notifContent.toString())
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         // Get the NotificationManagerCompat

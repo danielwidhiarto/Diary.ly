@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Diary.ly</string>
+    <string name="Login">Gabung</string>
+    <string name="Register">Daftar</string>
+
+    <string name="Email">Surel</string>
+    <string name="enterEmail">Masukkan email Anda</string>
+    <string name="Password">Kata sandi</string>
+    <string name="enterPassword">Masukkan Kata Sandi Anda</string>
+
+    <string name="username">Nama belakang</string>
+    <string name="enterUsername">Masukkan Nama Pengguna Anda</string>
+    <string name="confirmPassword">Konfirmasi sandi</string>
+    <string name="enterConfirmPassword">Masukkan Konfirmasi Kata Sandi Anda</string>
+
+    <string name="forgotPassword">Tidak ingat kata sandi \?</string>
+    <string name="redirectRegister">Belum punya akun\?</string>
+    <string name="registerHere">Daftar disini</string>
+
+    <string name="redirectLogin">Sudah memiliki akun\?</string>
+    <string name="loginHere">Masuk disini</string>
+
+    <string name="forgotPasswordTitle">Tidak ingat kata sandi</string>
+    <string name="forgotPasswordContent">Masukkan email yang didaftarkan sebelumnya, untuk mereset kata sandi Anda</string>
+
+    <string name="sendLink">Kirim Tautan</string>
+    <string name="myJournal">Jurnal saya</string>
+
+    <string name="profilePicture">Foto profil</string>
+    <string name="Update">Memperbarui</string>
+    <string name="EditProfileTitle">Sunting profil</string>
+
+    <string name="JournalTitle">Judul Jurnal</string>
+    <string name="JournalContent">Isi</string>
+    <string name="JournalDate">31 Oktober 2023</string>
+    <string name="add_new_journal">Tambahkan Jurnal Baru</string>
+    <string name="journal_title">Judul Jurnal</string>
+    <string name="enter_journal_title">Masukkan Judul Jurnal</string>
+    <string name="content">Isi</string>
+    <string name="enter_journal_content">Masukkan Konten Jurnal</string>
+    <string name="date">Tanggal</string>
+    <string name="enter_journal_date">Masukkan Tanggal Jurnal</string>
+    <string name="upload_image">Unggah Gambar</string>
+    <string name="image_profile">Profil Gambar</string>
+    <string name="journal_visibility">Visibilitas Jurnal</string>
+    <string name="private_post">Pribadi</string>
+    <string name="public_post">Publik</string>
+    <string name="add_journal">Tambahkan Jurnal</string>
+    <string name="back_button">Tombol kembali</string>
+    <string name="textview">Tampilan Teks</string>
+    <string name="total_journal">Jumlah Jurnal</string>
+    <string name="edit_journal">Jurnal penyuntingan</string>
+    <string name="edit_moods">Sunting Suasana Hati</string>
+    <string name="enter_moods_date">Masukkan Tanggal Suasana Hati</string>
+    <string name="time">Waktu</string>
+    <string name="enter_moods_time">Masukkan Waktu Suasana Hati</string>
+    <string name="choose_moods">Pilih Suasana Hati</string>
+    <string name="notes">Catatan</string>
+    <string name="enter_notes">Masukkan Catatan</string>
+    <string name="check_del_button">Periksa Tombol Del</string>
+    <string name="check_confirm_button">Periksa Tombol Konfirmasi</string>
+    <string name="delete">Menghapus</string>
+    <string name="delete_account">Hapus akun</string>
+    <string name="title">Judul</string>
+    <string name="emoji_image">Gambar Emoji</string>
+    <string name="neutral">Netral</string>
+    <string name="moodstime">10:00</string>
+    <string name="happy">senang</string>
+    <string name="logout">Keluar</string>
+
+    <string name ="btnSendLink">\"Silakan masukkan alamat email Anda.</string>
+    <string name ="resetPassSent">Email pengaturan ulang kata sandi telah dikirim ke alamat email Anda.</string>
+    <string name ="resetPassFail">Gagal mengirim email pengaturan ulang kata sandi. Silakan coba lagi nanti.</string>
+    <string name ="emailNotRegistered">Alamat emailnya tidak terdaftar..</string>
+    <string name ="fillAllTheFields">Silakan isi semua kolom.</string>
+    <string name ="signInSuccess">Pengguna berhasil masuk!.</string>
+    <string name ="signInFailed">Pengguna gagal masuk!.</string>
+    <string name ="usernameNoSpace">Nama pengguna tidak boleh mengandung spasi.</string>
+    <string name ="usernameLengthValidation">Nama pengguna harus antara 3 dan 30 karakter..</string>
+    <string name ="passwordNotMatch">Sandi tidak cocok.</string>
+    <string name ="accountCreateSuccess">Akun pengguna berhasil dibuat.</string>
+    <string name ="accountCreateFailed">Pembuatan akun pengguna gagal.</string>
+
+    <string name ="journalAddSuccess">Jurnal ditambahkan ke Berhasil.</string>
+    <string name ="journalAddFailed">Kesalahan saat menambahkan jurnal.</string>
+    <string name ="journalUpdateSuccess">Jurnal diperbarui menjadi Berhasil.</string>
+    <string name ="journalDeleteSuccess">Jurnal Berhasil Dihapus!.</string>
+    <string name ="journalDeleteFailed">Gagal menghapus jurnal!.</string>
+
+    <string name ="chooseAMood">Silakan pilih suasana hati sebelum menyimpan!</string>
+    <string name ="moodsAddSuccess">Suasana hati ditambahkan ke Berhasil.</string>
+    <string name ="moodsAddFailed">Terjadi kesalahan saat menambahkan suasana hati.</string>
+    <string name ="moodsUpdateSuccess">Suasana hati diperbarui menjadi Berhasil.</string>
+    <string name ="moodsUpdateFailed">Kesalahan saat memperbarui suasana hati.</string>
+    <string name ="moodsDeleteSuccess">Suasana Hati Berhasil Dihapus!.</string>
+    <string name ="moodsDeleteFailed">Gagal menghapus suasana hati!.</string>
+
+    <string name ="profileUpdatedSuccess">Profil Berhasil Diperbarui!.</string>
+    <string name ="noCameraApp">Tidak ada aplikasi kamera yang ditemukan!.</string>
+    <string name="loginAgain">Sesi Anda telah berakhir, silakan login kembali!</string>
+
+    <string name="notifHeader">Pengingat Moods and Journal</string>
+    <string name="notifContent">Jangan lupa untuk memasukkan jurnal dan suasana hati Anda hari ini!</string>
+
+
+
+</resources>
