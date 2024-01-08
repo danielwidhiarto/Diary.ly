@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly/badge)](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly)
+
 # Diary.ly
 
 Diary.ly is a Kotlin-based Android app designed for daily journaling and mood tracking. Share your thoughts, explore public journals, modify your profile, and connect with friends through this intuitive and feature-rich application.
