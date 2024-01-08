@@ -1,4 +1,4 @@
-# [![CodeFactor](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly/badge)](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly)
+# Rating [![CodeFactor](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly/badge)](https://www.codefactor.io/repository/github/danielwidhiarto/diary.ly)
 
 # Diary.ly
 
